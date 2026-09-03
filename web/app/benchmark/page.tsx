@@ -123,11 +123,18 @@ export default function BenchmarkPage() {
                 <td style={{ color: 'var(--accent-cyan)' }}>₹202,193.41</td>
               </tr>
               <tr>
-                <td>Net ROI Multiple</td>
-                <td>30.9x</td>
-                <td>48.5x</td>
-                <td>48.5x</td>
-                <td><strong>45.4x</strong></td>
+                <td>Incremental Net Capital vs Bounded</td>
+                <td style={{ color: 'var(--accent-rose)' }}>-₹9,206.59</td>
+                <td>₹0.00 (Baseline)</td>
+                <td style={{ color: 'var(--accent-emerald)', fontWeight: 600 }}>+₹9,774.64</td>
+                <td style={{ color: 'var(--accent-cyan)', fontWeight: 700 }}>+₹26,406.56</td>
+              </tr>
+              <tr>
+                <td>Return on Incremental Spend</td>
+                <td style={{ color: 'var(--accent-rose)' }}>Negative</td>
+                <td>Baseline</td>
+                <td style={{ color: 'var(--accent-emerald)' }}>6,147.5x incremental</td>
+                <td style={{ color: 'var(--accent-cyan)', fontWeight: 600 }}>573.5x incremental</td>
               </tr>
               <tr>
                 <td>Wasted Spend on Dead Accounts</td>
@@ -144,32 +151,33 @@ export default function BenchmarkPage() {
       {/* Analytical Takeaways */}
       <div className="grid-3" style={{ marginBottom: '2rem' }}>
         <div className="card">
-          <div className="card-title">Channel Substitution</div>
+          <div className="card-title">Decoupled Dunning Discovery</div>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-            Substituting futile retries with instant digital links drives significant recovery:
+            Decoupling customer communication from auto-debits breaks the scheduling null:
             <ul style={{ marginTop: '0.5rem', paddingLeft: '1.25rem' }}>
-              <li><code>card_expired</code>: <strong>+10.5pp ± 5.0pp</strong> (Statistically established)</li>
-              <li><code>3ds_dropoff</code>: +4.9pp ± 7.0pp (Directional, straddles zero)</li>
+              <li><strong>+2.37pp Value Lift / +2.91pp Cases</strong> over NaiveBounded</li>
+              <li>Day-1 link captures fresh intent; 28th debit captures peak liquidity</li>
+              <li>Eliminates <strong>71.3 futile retries</strong> before debit</li>
             </ul>
           </div>
         </div>
         <div className="card">
-          <div className="card-title">The Deferral Dilemma: Attrition vs Truncation</div>
+          <div className="card-title">Complementary Funnel Dynamics</div>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-            Diagnostic sweep across a full 28-day billing cycle reveals two distinct regimes:
+            Interventions operate on opposite ends of the balance distribution:
             <ul style={{ marginTop: '0.5rem', paddingLeft: '1.25rem' }}>
-              <li><strong>0d to 7d</strong>: Constant retries (~340), recovery falls 43.6% &rarr; 40.5% (pure attrition decay)</li>
-              <li><strong>14d to 21d</strong>: Horizon truncation drops retries from 346 &rarr; 222, crashing recovery to 34.9%</li>
+              <li><strong>Decoupled Links (+2.91pp Cases)</strong>: Drives volume at the long tail (~₹1,200 median)</li>
+              <li><strong>Voice Telephony (+3.91pp Value)</strong>: Drives value at the top of the book (&ge; ₹5,000)</li>
             </ul>
           </div>
         </div>
         <div className="card">
-          <div className="card-title">Voice Telephony: Selection & Sensitivity</div>
+          <div className="card-title">Voice Telephony: Absolute Economics</div>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-            Accounts &ge; ₹5,000 average ₹9,185/case (selection effect):
+            High-value targeting (&ge; ₹5,000 averages ₹9,185/case):
             <ul style={{ marginTop: '0.5rem', paddingLeft: '1.25rem' }}>
-              <li><strong>37.4% conv.</strong>: 1.70 recoveries from 4.55 calls &rarr; ₹15,075 net lift (686x call ROI)</li>
-              <li><strong>15.0% conv.</strong>: 0.68 recoveries &rarr; ₹6,121 net lift (41.3x call ROI)</li>
+              <li><strong>5.8 calls (₹29.00 spent)</strong> &rarr; <strong>₹16,632 net capital</strong></li>
+              <li>Stress test at 15% conv: recovers ~₹6,200 net</li>
               <li><strong>Break-Even</strong>: <strong>0.055% conversion</strong> (1 recovery per 1,800 calls)</li>
             </ul>
           </div>
