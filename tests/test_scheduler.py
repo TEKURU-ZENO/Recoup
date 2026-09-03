@@ -33,9 +33,9 @@ def _make_case(fc: FailureCode, **overrides) -> Case:
 class TestScheduler:
     """Smart scheduler tests."""
 
-    def test_adjacent_salary_window_aligns_to_28th(self):
-        """Failure on April 26th (adjacent to payday) schedules into 28th IST salary window."""
-        now = _utc_ist(month=4, day=26, hour_ist=10)
+    def test_mid_month_insufficient_funds_defers_to_salary_window(self):
+        """Mid-month (April 15th) insufficient_funds failure schedules auto-debit to 28th IST salary window."""
+        now = _utc_ist(month=4, day=15, hour_ist=10)
         case = _make_case(FailureCode.INSUFFICIENT_FUNDS)
 
         next_time = next_retry_at(case, now)
@@ -44,16 +44,16 @@ class TestScheduler:
         next_ist = next_time.astimezone(IST)
         assert next_ist.day == 28
 
-    def test_mid_month_insufficient_funds_fast_retry(self):
-        """Mid-month (April 15th) failure executes fast retry at instrument-optimal hour to avoid attrition."""
-        now = _utc_ist(month=4, day=15, hour_ist=10)
+    def test_inside_salary_window_insufficient_funds_retries_next_day(self):
+        """Inside salary window (April 3rd) retries next day at instrument-optimal morning hour."""
+        now = _utc_ist(month=4, day=3, hour_ist=10)
         case = _make_case(FailureCode.INSUFFICIENT_FUNDS, instrument_type=InstrumentType.UPI_AUTOPAY)
 
         next_time = next_retry_at(case, now)
         assert next_time is not None
 
         next_ist = next_time.astimezone(IST)
-        assert next_ist.day == 16
+        assert next_ist.day == 4
         assert next_ist.hour == 9
         assert next_ist.minute == 30
 

@@ -50,8 +50,8 @@ def run_simulation(
     # 1. Generate portfolio sealed by seed
     portfolio = generate_portfolio(seed=seed, n=n_cases, base_time=base_time)
 
-    # 2. Instantiate downtime calendar sealed by seed
-    downtime_cal = DowntimeCalendar(seed=seed, start=base_time, horizon_days=horizon_days)
+    # 2. Instantiate downtime calendar sealed by seed (spans 60 days to cover 28d billing cycle + 30d case lifecycles)
+    downtime_cal = DowntimeCalendar(seed=seed, start=base_time, horizon_days=horizon_days + 30)
 
     results: list[tuple[Case, list[tuple[Action, Outcome]]]] = []
 

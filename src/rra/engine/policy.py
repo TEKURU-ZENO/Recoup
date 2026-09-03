@@ -66,7 +66,23 @@ def next_action(
 
     # LEVEL 1: Smart_Retry
     if case.escalation_level == EscalationLevel.SMART_RETRY:
-        if retries_count < 3:
+        # DECOUPLED DUNNING ARCHITECTURE:
+        # For insufficient funds, decouple customer engagement from backend debit scheduling.
+        # Dispatch an immediate digital nudge with payment link on Day 1 (t=0) while customer
+        # intent is 100% fresh, while deferring automated auto-debits to the salary liquidity window.
+        if (
+            use_smart_scheduling
+            and case.failure_code == FailureCode.INSUFFICIENT_FUNDS
+            and nudges_count == 0
+        ):
+            proposed_action = Action(
+                case_id=case.case_id,
+                action_type=ActionType.SMS_NUDGE,
+                channel=ChannelType.SMS,
+                scheduled_at=now,
+                rule_id="DECOUPLED_IMMEDIATE_NUDGE",
+            )
+        elif retries_count < 3:
             if use_smart_scheduling:
                 smart_scheduled = next_retry_at(case, now)
                 if smart_scheduled is None:

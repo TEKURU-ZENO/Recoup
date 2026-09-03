@@ -108,18 +108,18 @@ def next_retry_at(
             return recovery_time + timedelta(minutes=30)
 
     # Insufficient funds:
-    # Empirical sweep finding: Deferring 12+ days for payday incurs severe exponential customer
-    # attrition decay (exp(-0.05*Δt) ≈ 45-60% loss). Fast retry at instrument-optimal morning hours
-    # preserves high customer intent and accelerates escalation to digital nudges.
-    # Only defer if already within 2 days of salary window (26th-27th IST).
+    # Under decoupled dunning, customer communication is already dispatched on Day 1 (intent protected).
+    # Backend auto-debits are aligned to the upcoming salary clearing window (28th IST at optimal hour)
+    # where liquidity peaks. If already inside the window (28th-5th), retry next day at optimal hour.
     ist_now = now.astimezone(IST)
     if fc == FailureCode.INSUFFICIENT_FUNDS:
-        opt_hour = optimal_retry_hour_for_instrument(case.instrument_type)
-        if ist_now.day in (26, 27):
-            target_day = ist_now.replace(day=28, hour=opt_hour, minute=30, second=0, microsecond=0)
-            return target_day.astimezone(timezone.utc)
+        if ist_now.day < 28 and ist_now.day > 5:
+            return next_salary_window_start(now, case.instrument_type)
         else:
-            next_day_ist = (ist_now + timedelta(days=1)).replace(hour=opt_hour, minute=30, second=0, microsecond=0)
+            opt_hour = optimal_retry_hour_for_instrument(case.instrument_type)
+            next_day_ist = (ist_now + timedelta(days=1)).replace(
+                hour=opt_hour, minute=30, second=0, microsecond=0
+            )
             return next_day_ist.astimezone(timezone.utc)
 
     # Transient timeout: short 4-hour backoff

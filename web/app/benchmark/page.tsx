@@ -41,31 +41,31 @@ export default function BenchmarkPage() {
             <tbody>
               <tr>
                 <td style={{ fontWeight: 600 }}>NaiveUnbounded → NaiveBounded</td>
-                <td>Compliance & Channel Substitution</td>
-                <td style={{ color: 'var(--accent-emerald)' }}><strong>+1.70pp ± 1.48pp</strong></td>
-                <td><strong>+1.26pp ± 1.02pp</strong></td>
-                <td>Channel substitution: links replace futile retries (+10.5pp on expired cards)</td>
+                <td>Bounded Guards & Links</td>
+                <td><strong>+1.65pp ± 1.51pp</strong></td>
+                <td><strong>+1.07pp ± 0.96pp</strong></td>
+                <td>Channel substitution: links replace futile retries on dead cards</td>
               </tr>
               <tr>
                 <td style={{ fontWeight: 600 }}>NaiveBounded → SmartBounded</td>
-                <td>Contextual Timing Schedule</td>
-                <td><strong>-0.07pp ± 0.54pp</strong></td>
-                <td><strong>+0.09pp ± 0.23pp</strong></td>
-                <td>Liquidity vs attrition trade-off: fast retry avoids customer attrition cliff</td>
+                <td>Decoupled Dunning Ladder</td>
+                <td style={{ color: 'var(--accent-emerald)' }}><strong>+2.37pp ± 1.13pp</strong></td>
+                <td style={{ color: 'var(--accent-emerald)' }}><strong>+2.91pp ± 0.89pp</strong></td>
+                <td>Decoupled dunning: Day-1 nudge captures intent, 28th auto-debit captures liquidity (-71 retries)</td>
               </tr>
               <tr>
                 <td style={{ fontWeight: 600 }}>SmartBounded → SmartBoundedVoice</td>
                 <td>Voice Intercept Telephony (>₹5k)</td>
-                <td style={{ color: 'var(--accent-emerald)' }}><strong>+3.53pp ± 1.85pp</strong></td>
-                <td><strong>+0.79pp ± 0.37pp</strong></td>
-                <td>1.70 accounts recovered / seed from 4.55 calls (37.4% conv., target &gt;₹5k)</td>
+                <td style={{ color: 'var(--accent-emerald)' }}><strong>+3.91pp ± 2.05pp</strong></td>
+                <td><strong>+0.88pp ± 0.42pp</strong></td>
+                <td>5.8 calls cost ₹29.00 and yield ₹16,632 net capital (37.4% conv., target &gt;₹5k)</td>
               </tr>
               <tr style={{ borderTop: '2px solid var(--border-color)', background: 'rgba(16, 185, 129, 0.05)' }}>
                 <td style={{ fontWeight: 700 }}>Cumulative System Lift</td>
                 <td>Full Autonomous Recovery Agent</td>
-                <td style={{ color: 'var(--accent-emerald)', fontWeight: 700 }}><strong>+5.17pp ± 2.45pp</strong></td>
-                <td style={{ color: 'var(--accent-emerald)', fontWeight: 700 }}><strong>+2.14pp ± 1.15pp</strong></td>
-                <td>₹+23,155 gross capital recovered per batch, -39.5% retries, zero violations</td>
+                <td style={{ color: 'var(--accent-emerald)', fontWeight: 700 }}><strong>+7.92pp ± 2.45pp</strong></td>
+                <td style={{ color: 'var(--accent-emerald)', fontWeight: 700 }}><strong>+4.86pp ± 1.25pp</strong></td>
+                <td>₹+35,613 net capital recovered per batch, -49.7% retries, zero violations</td>
               </tr>
             </tbody>
           </table>
@@ -89,45 +89,45 @@ export default function BenchmarkPage() {
             <tbody>
               <tr>
                 <td>Gross Revenue Recovered</td>
-                <td>₹218,740.20</td>
-                <td>₹226,538.53</td>
-                <td>₹226,280.64</td>
-                <td style={{ fontWeight: 700, color: 'var(--accent-emerald)' }}>₹241,895.35</td>
+                <td>₹171,952.85</td>
+                <td>₹179,408.16</td>
+                <td>₹189,383.90</td>
+                <td style={{ fontWeight: 700, color: 'var(--accent-emerald)' }}>₹206,651.16</td>
               </tr>
               <tr>
                 <td>Gateway MDR (2.0%)</td>
-                <td>₹4,374.80</td>
-                <td>₹4,530.77</td>
-                <td>₹4,525.61</td>
-                <td>₹4,837.90</td>
+                <td>₹3,439.05</td>
+                <td>₹3,588.16</td>
+                <td>₹3,787.67</td>
+                <td>₹4,133.02</td>
               </tr>
               <tr>
                 <td>Delivery Spend (SMS/WA/Voice)</td>
-                <td>₹57.24</td>
-                <td>₹21.80</td>
-                <td>₹21.68</td>
-                <td>₹44.42</td>
+                <td>₹70.54</td>
+                <td>₹33.15</td>
+                <td>₹34.74</td>
+                <td>₹63.74</td>
               </tr>
               <tr>
                 <td>Contact Churn Fatigue Cost</td>
-                <td style={{ color: 'var(--accent-rose)' }}>₹1,518.75</td>
+                <td style={{ color: 'var(--accent-rose)' }}>₹1,863.00</td>
                 <td style={{ color: 'var(--accent-emerald)' }}>₹0.00</td>
                 <td style={{ color: 'var(--accent-emerald)' }}>₹0.00</td>
-                <td>₹204.75</td>
+                <td>₹261.00</td>
               </tr>
               <tr style={{ fontWeight: 700, background: 'rgba(255, 255, 255, 0.03)' }}>
                 <td>Net Recovered Capital</td>
-                <td>₹212,789.41</td>
-                <td>₹221,985.97</td>
-                <td>₹221,733.36</td>
-                <td style={{ color: 'var(--accent-cyan)' }}>₹236,808.28</td>
+                <td>₹166,580.26</td>
+                <td>₹175,786.85</td>
+                <td>₹185,561.49</td>
+                <td style={{ color: 'var(--accent-cyan)' }}>₹202,193.41</td>
               </tr>
               <tr>
                 <td>Net ROI Multiple</td>
-                <td>35.7x</td>
-                <td>48.8x</td>
-                <td>48.8x</td>
-                <td><strong>46.6x</strong></td>
+                <td>30.9x</td>
+                <td>48.5x</td>
+                <td>48.5x</td>
+                <td><strong>45.4x</strong></td>
               </tr>
               <tr>
                 <td>Wasted Spend on Dead Accounts</td>

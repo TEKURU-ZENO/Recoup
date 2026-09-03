@@ -7,8 +7,8 @@ Marked `[sourced]` with a citation, or `[judgment]` as the author's own estimate
 > far more than unexplained precision.
 
 > **Calibration notice**: The absolute recovery rates produced by this simulator
-> (≈52–57%) are **uncalibrated against production data**. Industry dunning recovery
-> on failed recurring payments typically runs in the teens to low thirties.
+> (≈41–48% on the realistic 28-day billing cycle portfolio) are **uncalibrated against production data**.
+> Industry dunning recovery on failed recurring payments typically runs in the 15–30% range.
 > The base probabilities below are set to produce differentiated behavior across
 > failure codes, not to match a specific production cohort.
 >

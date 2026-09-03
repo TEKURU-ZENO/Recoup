@@ -194,8 +194,8 @@ def generate_portfolio(
             seed, f"{case_key}_lang", _LANGUAGES, _LANGUAGE_WEIGHTS
         )
 
-        # Creation time: spread across first 48h of the simulation
-        time_offset_hours = _seeded_float(seed, f"{case_key}_time") * 48
+        # Creation time: spread across 28-day monthly billing cycle (realistic SaaS/D2C cohorts)
+        time_offset_hours = _seeded_float(seed, f"{case_key}_time") * (28 * 24)
         created_at = base_time + timedelta(hours=time_offset_hours)
 
         # Subscription ID
