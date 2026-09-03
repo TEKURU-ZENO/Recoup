@@ -17,3 +17,6 @@ htmlcov/
 node_modules/
 .next/
 
+
+# Next.js
+next-env.d.ts

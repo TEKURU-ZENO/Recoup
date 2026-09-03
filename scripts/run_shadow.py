@@ -1,7 +1,7 @@
 """CLI script to execute shadow-mode evaluation on a merchant webhook feed.
 
 Demonstrates:
-- 100% policy legality on live-shaped transactions
+- 100% policy legality on synthetic-realistic, live-shaped transactions
 - Taxonomy coverage measurement and identification of unmapped codes
 - Zero side effects (no customer notifications, no money movement)
 """
@@ -18,9 +18,11 @@ from rra.shadow.runner import ShadowRunner
 
 
 def generate_sample_merchant_feed(n: int = 400, seed: int = 42) -> list[dict]:
-    """Generate a representative sample of 400 merchant webhook events.
+    """Generate a representative sample of 400 *synthetic* merchant webhook events.
 
-    Mix of standard Razorpay error codes + rare gateway anomalies.
+    These are synthetic-realistic records constructed to match Razorpay's error-code
+    schema and published failure-reason distributions. They are NOT production traffic.
+    IDs are prefixed `evt_synth_` / `pay_synth_` / `sub_synth_` so nothing reads as live.
     """
     rng = random.Random(seed)
     reasons = [
@@ -51,23 +53,23 @@ def generate_sample_merchant_feed(n: int = 400, seed: int = 42) -> list[dict]:
         amount = rng.randint(49900, 1500000)  # ₹499 to ₹15,000
 
         event = {
-            "id": f"evt_live_{i+1:04d}",
+            "id": f"evt_synth_{i+1:04d}",
             "entity": "event",
             "event": "payment.failed",
             "payload": {
                 "payment": {
                     "entity": {
-                        "id": f"pay_live_{i+1:06d}",
+                        "id": f"pay_synth_{i+1:06d}",
                         "amount": amount,
                         "currency": "INR",
                         "status": "failed",
                         "method": rng.choice(["upi", "card", "emandate"]),
-                        "subscription_id": f"sub_live_{i+1:04d}",
+                        "subscription_id": f"sub_synth_{i+1:04d}",
                         "error_code": code,
                         "error_source": source,
                         "error_step": step,
                         "error_reason": reason,
-                        "error_description": f"Live gateway error: {reason}",
+                        "error_description": f"Synthetic gateway error: {reason}",
                         "created_at": 1775010000 + i * 300,
                     }
                 }

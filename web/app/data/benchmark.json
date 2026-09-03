@@ -1,0 +1,825 @@
+{
+  "generated_from": "docs/benchmark-report.md",
+  "seeds": 20,
+  "cases_per_seed": 215,
+  "provenance": "20 seeds x 215 cases/seed, CRN-paired - `make bench` reproduces every figure",
+  "paired_deltas": [
+    {
+      "comparison": "NaiveUnbounded → NaiveBounded",
+      "metric": "Value Recovery Rate (INR)",
+      "unit": "pp",
+      "delta": "+1.65pp ± 1.51pp",
+      "interpretation": "Channel substitution: links replace futile retries",
+      "mean": 1.65,
+      "ci": 1.51,
+      "low": 0.14,
+      "high": 3.16,
+      "clears_zero": true,
+      "text": "+1.65pp ± 1.51pp"
+    },
+    {
+      "comparison": "NaiveUnbounded → NaiveBounded",
+      "metric": "Case Resolution Rate (Count)",
+      "unit": "pp",
+      "delta": "+1.07pp ± 0.96pp",
+      "interpretation": "Direct account resolution lift via digital links",
+      "mean": 1.07,
+      "ci": 0.96,
+      "low": 0.11,
+      "high": 2.03,
+      "clears_zero": true,
+      "text": "+1.07pp ± 0.96pp"
+    },
+    {
+      "comparison": "NaiveUnbounded → NaiveBounded",
+      "metric": "Guard Violations",
+      "unit": "count",
+      "delta": "-286.9 ± 8.2",
+      "interpretation": "100% regulatory violations eliminated",
+      "mean": -286.9,
+      "ci": 8.2,
+      "low": -295.1,
+      "high": -278.7,
+      "clears_zero": true,
+      "text": "-286.9 ± 8.2"
+    },
+    {
+      "comparison": "NaiveUnbounded → NaiveBounded",
+      "metric": "Declined Chases",
+      "unit": "count",
+      "delta": "+24.3 ± 2.0",
+      "interpretation": "Structurally dead accounts refused at Level 0",
+      "mean": 24.3,
+      "ci": 2.0,
+      "low": 22.3,
+      "high": 26.3,
+      "clears_zero": true,
+      "text": "+24.3 ± 2.0"
+    },
+    {
+      "comparison": "NaiveBounded → SmartBounded",
+      "metric": "Value Recovery Rate (INR)",
+      "unit": "pp",
+      "delta": "+2.37pp ± 1.13pp",
+      "interpretation": "Fast-retry tuning & adjacent payday alignment",
+      "mean": 2.37,
+      "ci": 1.13,
+      "low": 1.24,
+      "high": 3.5,
+      "clears_zero": true,
+      "text": "+2.37pp ± 1.13pp"
+    },
+    {
+      "comparison": "NaiveBounded → SmartBounded",
+      "metric": "Case Resolution Rate (Count)",
+      "unit": "pp",
+      "delta": "+2.91pp ± 0.89pp",
+      "interpretation": "Account resolution delta",
+      "mean": 2.91,
+      "ci": 0.89,
+      "low": 2.02,
+      "high": 3.8,
+      "clears_zero": true,
+      "text": "+2.91pp ± 0.89pp"
+    },
+    {
+      "comparison": "NaiveBounded → SmartBounded",
+      "metric": "Retries Executed",
+      "unit": "count",
+      "delta": "-71.3 ± 5.2",
+      "interpretation": "Backoff optimization & downtime holding",
+      "mean": -71.3,
+      "ci": 5.2,
+      "low": -76.5,
+      "high": -66.1,
+      "clears_zero": true,
+      "text": "-71.3 ± 5.2"
+    },
+    {
+      "comparison": "SmartBounded → SmartBoundedVoice",
+      "metric": "Value Recovery Rate (INR)",
+      "unit": "pp",
+      "delta": "+3.91pp ± 2.05pp",
+      "interpretation": "Target accounts >₹5,000 average ₹9,185 recovered/case",
+      "mean": 3.91,
+      "ci": 2.05,
+      "low": 1.86,
+      "high": 5.96,
+      "clears_zero": true,
+      "text": "+3.91pp ± 2.05pp"
+    },
+    {
+      "comparison": "SmartBounded → SmartBoundedVoice",
+      "metric": "Case Resolution Rate (Count)",
+      "unit": "pp",
+      "delta": "+0.88pp ± 0.42pp",
+      "interpretation": "1.70 accounts recovered / seed from 4.55 calls (37.4% conv.)",
+      "mean": 0.88,
+      "ci": 0.42,
+      "low": 0.46,
+      "high": 1.3,
+      "clears_zero": true,
+      "text": "+0.88pp ± 0.42pp"
+    },
+    {
+      "comparison": "SmartBounded → SmartBoundedVoice",
+      "metric": "Gross Revenue Lift",
+      "unit": "inr",
+      "delta": "₹+17,267.27 ± ₹9447.69",
+      "interpretation": "Incremental capital recovered via voice intercept",
+      "mean": 17267.27,
+      "ci": 9447.69,
+      "low": 7819.58,
+      "high": 26714.96,
+      "clears_zero": true,
+      "text": "₹+17,267.27 ± ₹9447.69"
+    },
+    {
+      "comparison": "SmartBounded → SmartBoundedVoice",
+      "metric": "Net Value Lift",
+      "unit": "inr",
+      "delta": "₹+16,631.92 ± ₹9212.37",
+      "interpretation": "Net value generated after 2% MDR and ₹5.00 SIP call cost",
+      "mean": 16631.92,
+      "ci": 9212.37,
+      "low": 7419.55,
+      "high": 25844.29,
+      "clears_zero": true,
+      "text": "₹+16,631.92 ± ₹9212.37"
+    }
+  ],
+  "economics": [
+    {
+      "metric": "Gross Revenue Recovered",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 171952.85,
+          "ci": 13961.31,
+          "low": 157991.54,
+          "high": 185914.16,
+          "clears_zero": true,
+          "text": "₹171,952.85 ± ₹13,961.31"
+        },
+        "NaiveBounded": {
+          "mean": 179408.16,
+          "ci": 16719.81,
+          "low": 162688.35,
+          "high": 196127.97,
+          "clears_zero": true,
+          "text": "₹179,408.16 ± ₹16,719.81"
+        },
+        "SmartBounded": {
+          "mean": 189383.9,
+          "ci": 16361.67,
+          "low": 173022.23,
+          "high": 205745.57,
+          "clears_zero": true,
+          "text": "₹189,383.90 ± ₹16,361.67"
+        },
+        "SmartBoundedVoice": {
+          "mean": 206651.16,
+          "ci": 21080.62,
+          "low": 185570.54,
+          "high": 227731.78,
+          "clears_zero": true,
+          "text": "₹206,651.16 ± ₹21,080.62"
+        }
+      }
+    },
+    {
+      "metric": "Gateway MDR (2.0%)",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 3439.05,
+          "ci": 279.23,
+          "low": 3159.82,
+          "high": 3718.28,
+          "clears_zero": true,
+          "text": "₹3,439.05 ± ₹279.23"
+        },
+        "NaiveBounded": {
+          "mean": 3588.16,
+          "ci": 334.4,
+          "low": 3253.76,
+          "high": 3922.56,
+          "clears_zero": true,
+          "text": "₹3,588.16 ± ₹334.40"
+        },
+        "SmartBounded": {
+          "mean": 3787.67,
+          "ci": 327.23,
+          "low": 3460.44,
+          "high": 4114.9,
+          "clears_zero": true,
+          "text": "₹3,787.67 ± ₹327.23"
+        },
+        "SmartBoundedVoice": {
+          "mean": 4133.02,
+          "ci": 421.61,
+          "low": 3711.41,
+          "high": 4554.63,
+          "clears_zero": true,
+          "text": "₹4,133.02 ± ₹421.61"
+        }
+      }
+    },
+    {
+      "metric": "Channel Delivery Spend (SMS/WA/Voice)",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 70.54,
+          "ci": 1.59,
+          "low": 68.95,
+          "high": 72.13,
+          "clears_zero": true,
+          "text": "₹70.54 ± ₹1.59"
+        },
+        "NaiveBounded": {
+          "mean": 33.15,
+          "ci": 1.49,
+          "low": 31.66,
+          "high": 34.64,
+          "clears_zero": true,
+          "text": "₹33.15 ± ₹1.49"
+        },
+        "SmartBounded": {
+          "mean": 34.74,
+          "ci": 1.29,
+          "low": 33.45,
+          "high": 36.03,
+          "clears_zero": true,
+          "text": "₹34.74 ± ₹1.29"
+        },
+        "SmartBoundedVoice": {
+          "mean": 63.74,
+          "ci": 5.88,
+          "low": 57.86,
+          "high": 69.62,
+          "clears_zero": true,
+          "text": "₹63.74 ± ₹5.88"
+        }
+      }
+    },
+    {
+      "metric": "Contact Churn Fatigue Cost",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 1863.0,
+          "ci": 195.23,
+          "low": 1667.77,
+          "high": 2058.23,
+          "clears_zero": true,
+          "text": "₹1,863.00 ± ₹195.23"
+        },
+        "NaiveBounded": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "₹0.00 ± ₹0.00"
+        },
+        "SmartBounded": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "₹0.00 ± ₹0.00"
+        },
+        "SmartBoundedVoice": {
+          "mean": 261.0,
+          "ci": 54.49,
+          "low": 206.51,
+          "high": 315.49,
+          "clears_zero": true,
+          "text": "₹261.00 ± ₹54.49"
+        }
+      }
+    },
+    {
+      "metric": "Net Recovered Capital",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 166580.26,
+          "ci": 13782.63,
+          "low": 152797.63,
+          "high": 180362.89,
+          "clears_zero": true,
+          "text": "₹166,580.26 ± ₹13,782.63"
+        },
+        "NaiveBounded": {
+          "mean": 175786.85,
+          "ci": 16386.03,
+          "low": 159400.82,
+          "high": 192172.88,
+          "clears_zero": true,
+          "text": "₹175,786.85 ± ₹16,386.03"
+        },
+        "SmartBounded": {
+          "mean": 185561.49,
+          "ci": 16034.78,
+          "low": 169526.71,
+          "high": 201596.27,
+          "clears_zero": true,
+          "text": "₹185,561.49 ± ₹16,034.78"
+        },
+        "SmartBoundedVoice": {
+          "mean": 202193.41,
+          "ci": 20625.45,
+          "low": 181567.96,
+          "high": 222818.86,
+          "clears_zero": true,
+          "text": "₹202,193.41 ± ₹20,625.45"
+        }
+      }
+    },
+    {
+      "metric": "Incremental Net Capital vs Bounded",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": -9206.59,
+          "ci": 6209.98,
+          "low": -15416.57,
+          "high": -2996.61,
+          "clears_zero": true,
+          "text": "₹-9,206.59 ± ₹6,209.98"
+        },
+        "NaiveBounded": {
+          "text": "₹0.00 (Baseline)"
+        },
+        "SmartBounded": {
+          "mean": 9774.63,
+          "ci": 4753.63,
+          "low": 5021.0,
+          "high": 14528.26,
+          "clears_zero": true,
+          "text": "₹+9,774.63 ± ₹4,753.63"
+        },
+        "SmartBoundedVoice": {
+          "mean": 26406.55,
+          "ci": 11059.66,
+          "low": 15346.89,
+          "high": 37466.21,
+          "clears_zero": true,
+          "text": "₹+26,406.55 ± ₹11,059.66"
+        }
+      }
+    },
+    {
+      "metric": "Incremental Channel Spend vs Bounded",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 37.39,
+          "ci": 1.76,
+          "low": 35.63,
+          "high": 39.15,
+          "clears_zero": true,
+          "text": "₹+37.39 ± ₹1.76"
+        },
+        "NaiveBounded": {
+          "text": "₹0.00 (Baseline)"
+        },
+        "SmartBounded": {
+          "mean": 1.59,
+          "ci": 0.78,
+          "low": 0.81,
+          "high": 2.37,
+          "clears_zero": true,
+          "text": "₹+1.59 ± ₹0.78"
+        },
+        "SmartBoundedVoice": {
+          "mean": 30.59,
+          "ci": 6.22,
+          "low": 24.37,
+          "high": 36.81,
+          "clears_zero": true,
+          "text": "₹+30.59 ± ₹6.22"
+        }
+      }
+    },
+    {
+      "metric": "Wasted Spend on Unrecoverable Accounts",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 8.12,
+          "ci": 0.69,
+          "low": 7.43,
+          "high": 8.81,
+          "clears_zero": true,
+          "text": "₹8.12 ± ₹0.69"
+        },
+        "NaiveBounded": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "₹0.00 ± ₹0.00"
+        },
+        "SmartBounded": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "₹0.00 ± ₹0.00"
+        },
+        "SmartBoundedVoice": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "₹0.00 ± ₹0.00"
+        }
+      }
+    }
+  ],
+  "technical": [
+    {
+      "metric": "Value Recovery Rate (% of INR)",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 40.83,
+          "ci": 2.2,
+          "low": 38.63,
+          "high": 43.03,
+          "clears_zero": true,
+          "text": "40.83% ± 2.20%"
+        },
+        "NaiveBounded": {
+          "mean": 42.47,
+          "ci": 2.65,
+          "low": 39.82,
+          "high": 45.12,
+          "clears_zero": true,
+          "text": "42.47% ± 2.65%"
+        },
+        "SmartBounded": {
+          "mean": 44.84,
+          "ci": 2.33,
+          "low": 42.51,
+          "high": 47.17,
+          "clears_zero": true,
+          "text": "44.84% ± 2.33%"
+        },
+        "SmartBoundedVoice": {
+          "mean": 48.75,
+          "ci": 3.05,
+          "low": 45.7,
+          "high": 51.8,
+          "clears_zero": true,
+          "text": "48.75% ± 3.05%"
+        }
+      }
+    },
+    {
+      "metric": "Case Resolution Rate (% of Cases)",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 41.23,
+          "ci": 1.47,
+          "low": 39.76,
+          "high": 42.7,
+          "clears_zero": true,
+          "text": "41.23% ± 1.47%"
+        },
+        "NaiveBounded": {
+          "mean": 42.3,
+          "ci": 1.62,
+          "low": 40.68,
+          "high": 43.92,
+          "clears_zero": true,
+          "text": "42.30% ± 1.62%"
+        },
+        "SmartBounded": {
+          "mean": 45.21,
+          "ci": 1.49,
+          "low": 43.72,
+          "high": 46.7,
+          "clears_zero": true,
+          "text": "45.21% ± 1.49%"
+        },
+        "SmartBoundedVoice": {
+          "mean": 46.09,
+          "ci": 1.67,
+          "low": 44.42,
+          "high": 47.76,
+          "clears_zero": true,
+          "text": "46.09% ± 1.67%"
+        }
+      }
+    },
+    {
+      "metric": "Resolved Accounts (Count)",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 88.7,
+          "ci": 3.2,
+          "low": 85.5,
+          "high": 91.9,
+          "clears_zero": true,
+          "text": "88.7 ± 3.2"
+        },
+        "NaiveBounded": {
+          "mean": 91.0,
+          "ci": 3.5,
+          "low": 87.5,
+          "high": 94.5,
+          "clears_zero": true,
+          "text": "91.0 ± 3.5"
+        },
+        "SmartBounded": {
+          "mean": 97.2,
+          "ci": 3.2,
+          "low": 94.0,
+          "high": 100.4,
+          "clears_zero": true,
+          "text": "97.2 ± 3.2"
+        },
+        "SmartBoundedVoice": {
+          "mean": 99.1,
+          "ci": 3.6,
+          "low": 95.5,
+          "high": 102.7,
+          "clears_zero": true,
+          "text": "99.1 ± 3.6"
+        }
+      }
+    },
+    {
+      "metric": "Retries Executed",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 550.4,
+          "ci": 4.4,
+          "low": 546.0,
+          "high": 554.8,
+          "clears_zero": true,
+          "text": "550.4 ± 4.4"
+        },
+        "NaiveBounded": {
+          "mean": 347.9,
+          "ci": 9.4,
+          "low": 338.5,
+          "high": 357.3,
+          "clears_zero": true,
+          "text": "347.9 ± 9.4"
+        },
+        "SmartBounded": {
+          "mean": 276.6,
+          "ci": 8.4,
+          "low": 268.2,
+          "high": 285.0,
+          "clears_zero": true,
+          "text": "276.6 ± 8.4"
+        },
+        "SmartBoundedVoice": {
+          "mean": 276.6,
+          "ci": 8.4,
+          "low": 268.2,
+          "high": 285.0,
+          "clears_zero": true,
+          "text": "276.6 ± 8.4"
+        }
+      }
+    },
+    {
+      "metric": "Voice Calls Executed",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "0.0 ± 0.0"
+        },
+        "NaiveBounded": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "0.0 ± 0.0"
+        },
+        "SmartBounded": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "0.0 ± 0.0"
+        },
+        "SmartBoundedVoice": {
+          "mean": 5.8,
+          "ci": 1.2,
+          "low": 4.6,
+          "high": 7.0,
+          "clears_zero": true,
+          "text": "5.8 ± 1.2"
+        }
+      }
+    },
+    {
+      "metric": "Declined Chases (Refused)",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "0.0 ± 0.0"
+        },
+        "NaiveBounded": {
+          "mean": 24.3,
+          "ci": 2.0,
+          "low": 22.3,
+          "high": 26.3,
+          "clears_zero": true,
+          "text": "24.3 ± 2.0"
+        },
+        "SmartBounded": {
+          "mean": 37.4,
+          "ci": 2.3,
+          "low": 35.1,
+          "high": 39.7,
+          "clears_zero": true,
+          "text": "37.4 ± 2.3"
+        },
+        "SmartBoundedVoice": {
+          "mean": 37.4,
+          "ci": 2.3,
+          "low": 35.1,
+          "high": 39.7,
+          "clears_zero": true,
+          "text": "37.4 ± 2.3"
+        }
+      }
+    },
+    {
+      "metric": "Mean Days to Settle",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 2.6,
+          "ci": 0.1,
+          "low": 2.5,
+          "high": 2.7,
+          "clears_zero": true,
+          "text": "2.6 ± 0.1"
+        },
+        "NaiveBounded": {
+          "mean": 2.0,
+          "ci": 0.1,
+          "low": 1.9,
+          "high": 2.1,
+          "clears_zero": true,
+          "text": "2.0 ± 0.1"
+        },
+        "SmartBounded": {
+          "mean": 3.7,
+          "ci": 0.3,
+          "low": 3.4,
+          "high": 4.0,
+          "clears_zero": true,
+          "text": "3.7 ± 0.3"
+        },
+        "SmartBoundedVoice": {
+          "mean": 3.8,
+          "ci": 0.3,
+          "low": 3.5,
+          "high": 4.1,
+          "clears_zero": true,
+          "text": "3.8 ± 0.3"
+        }
+      }
+    },
+    {
+      "metric": "Guard Violations",
+      "arms": {
+        "NaiveUnbounded": {
+          "mean": 286.9,
+          "ci": 8.2,
+          "low": 278.7,
+          "high": 295.1,
+          "clears_zero": true,
+          "text": "286.9 ± 8.2"
+        },
+        "NaiveBounded": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "0.0 ± 0.0"
+        },
+        "SmartBounded": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "0.0 ± 0.0"
+        },
+        "SmartBoundedVoice": {
+          "mean": 0.0,
+          "ci": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "clears_zero": false,
+          "text": "0.0 ± 0.0"
+        }
+      }
+    }
+  ],
+  "failure_modes": [
+    {
+      "failure_code": "insufficient_funds",
+      "batch_total": 91,
+      "rates": {
+        "NaiveUnbounded": 35.6,
+        "NaiveBounded": 34.3,
+        "SmartBounded": 40.9,
+        "SmartBoundedVoice": 42.3
+      },
+      "mechanism": "Decoupled dunning: Day-1 nudge captures intent, 28th auto-debit captures liquidity (+6.6pp, -71 retries)",
+      "lift": null
+    },
+    {
+      "failure_code": "bank_downtime",
+      "batch_total": 46,
+      "rates": {
+        "NaiveUnbounded": 81.0,
+        "NaiveBounded": 81.0,
+        "SmartBounded": 81.0,
+        "SmartBoundedVoice": 81.0
+      },
+      "mechanism": "Hold-and-resume 30m post-outage prevents exhausted retries",
+      "lift": null
+    },
+    {
+      "failure_code": "card_expired",
+      "batch_total": 29,
+      "rates": {
+        "NaiveUnbounded": 17.9,
+        "NaiveBounded": 28.3,
+        "SmartBounded": 28.3,
+        "SmartBoundedVoice": 29.3
+      },
+      "mechanism": "**Statistically significant lift (+10.4pp ± 4.9pp)** via method-switch link",
+      "lift": {
+        "mean": 10.4,
+        "ci": 4.9,
+        "low": 5.5,
+        "high": 15.3,
+        "clears_zero": true,
+        "text": "**Statistically significant lift (+10.4pp ± 4.9pp)** via method-switch link"
+      }
+    },
+    {
+      "failure_code": "3ds_dropoff",
+      "batch_total": 22,
+      "rates": {
+        "NaiveUnbounded": 26.8,
+        "NaiveBounded": 28.9,
+        "SmartBounded": 28.9,
+        "SmartBoundedVoice": 30.5
+      },
+      "mechanism": "*Directional but not statistically established* (+2.1pp ± 5.8pp, CI straddles 0)",
+      "lift": {
+        "mean": 2.1,
+        "ci": 5.8,
+        "low": -3.7,
+        "high": 7.9,
+        "clears_zero": false,
+        "text": "*Directional but not statistically established* (+2.1pp ± 5.8pp, CI straddles 0)"
+      }
+    },
+    {
+      "failure_code": "mandate_revoked",
+      "batch_total": 16,
+      "rates": {
+        "NaiveUnbounded": 0.0,
+        "NaiveBounded": 0.0,
+        "SmartBounded": 0.0,
+        "SmartBoundedVoice": 0.0
+      },
+      "mechanism": "Correctly halted at Level 0 (0 wasted fees or regulatory risk)",
+      "lift": null
+    },
+    {
+      "failure_code": "payment_timed_out",
+      "batch_total": 8,
+      "rates": {
+        "NaiveUnbounded": 98.8,
+        "NaiveBounded": 98.8,
+        "SmartBounded": 101.9,
+        "SmartBoundedVoice": 101.9
+      },
+      "mechanism": "Transient timeout; 4h backoff retry resolves quickly",
+      "lift": null
+    }
+  ]
+}

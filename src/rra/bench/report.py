@@ -210,10 +210,12 @@ def generate_report_markdown(results: dict[str, list[ArmRunMetrics]], seeds_coun
     md_lines.append(fmt_econ_row("churn_costs_inr", "Contact Churn Fatigue Cost"))
     md_lines.append(fmt_econ_row("net_recovered_inr", "Net Recovered Capital"))
     
-    # Return on Incremental Spend vs NaiveBounded
+    # Incremental net capital and incremental channel spend vs NaiveBounded.
+    # We deliberately do NOT publish a ratio of the two: the incremental-spend
+    # denominator is ~₹1.59 (SmartBounded), so any ratio reads as a vanity multiple.
+    # The absolute pairing below is the honest, non-cherry-pickable statement.
     inc_net_cells = []
     inc_spend_cells = []
-    rois_cells = []
     bounded_net = _extract(results, "NaiveBounded", "net_recovered_inr")
     bounded_spend = _extract(results, "NaiveBounded", "channel_costs_inr")
 
@@ -221,7 +223,6 @@ def generate_report_markdown(results: dict[str, list[ArmRunMetrics]], seeds_coun
         if arm == "NaiveBounded":
             inc_net_cells.append("₹0.00 (Baseline)")
             inc_spend_cells.append("₹0.00 (Baseline)")
-            rois_cells.append("Baseline")
         else:
             arm_net = _extract(results, arm, "net_recovered_inr")
             arm_spend = _extract(results, arm, "channel_costs_inr")
@@ -231,17 +232,17 @@ def generate_report_markdown(results: dict[str, list[ArmRunMetrics]], seeds_coun
             m_spd, c_spd = _mean_and_ci(deltas_spend)
             inc_net_cells.append(f"₹{m_net:+,.2f} ± ₹{c_net:,.2f}")
             inc_spend_cells.append(f"₹{m_spd:+,.2f} ± ₹{c_spd:,.2f}")
-            if m_spd > 0 and m_net > 0:
-                rois_cells.append(f"{m_net / m_spd:.1f}x incremental")
-            elif m_net < 0 and m_spd > 0:
-                rois_cells.append("Negative (Higher cost, lower recovery)")
-            else:
-                rois_cells.append("N/A")
 
     md_lines.append(f"| Incremental Net Capital vs Bounded | {inc_net_cells[0]} | {inc_net_cells[1]} | {inc_net_cells[2]} | {inc_net_cells[3]} |")
     md_lines.append(f"| Incremental Channel Spend vs Bounded | {inc_spend_cells[0]} | {inc_spend_cells[1]} | {inc_spend_cells[2]} | {inc_spend_cells[3]} |")
-    md_lines.append(f"| Return on Incremental Channel Spend | {rois_cells[0]} | {rois_cells[1]} | {rois_cells[2]} | {rois_cells[3]} |")
     md_lines.append(fmt_econ_row("waste_inr", "Wasted Spend on Unrecoverable Accounts"))
+    md_lines.append("")
+    md_lines.append(
+        "> The honest statement is the absolute pairing, not a ratio: a few rupees more of "
+        "channel spend (SmartBounded) buys ~₹9.8k more net capital; ~₹30 more including voice "
+        "(SmartBoundedVoice) buys ~₹26.4k more. No return-multiple is published — a ratio on a "
+        "~₹1.59 denominator is a vanity number."
+    )
 
     # Per-Arm Technical Metrics Table
     md_lines.extend([

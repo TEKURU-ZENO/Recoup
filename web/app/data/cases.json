@@ -1,0 +1,643 @@
+{
+  "generated_from": "offline deterministic engine (scripts/export_web_data.py)",
+  "cases": [
+    {
+      "case_id": "case_001",
+      "subscription_id": "sub_9f2a71c4",
+      "customer_name": "A. Sharma",
+      "amount_due_paise": 249900,
+      "failure_code": "insufficient_funds",
+      "instrument_type": "upi_autopay",
+      "status": "active",
+      "escalation_level": "smart_retry",
+      "attempt_count": 4,
+      "phone_number": "+919876500011",
+      "is_dnd": false,
+      "is_opted_out": false,
+      "language_preference": "hinglish",
+      "created_at": "2026-09-03T20:31:09.561961Z",
+      "updated_at": "2026-09-03T20:31:09.561974Z",
+      "audit_record_count": 5
+    },
+    {
+      "case_id": "case_002",
+      "subscription_id": "sub_3b8e40d9",
+      "customer_name": "D. Patel",
+      "amount_due_paise": 650000,
+      "failure_code": "card_expired",
+      "instrument_type": "upi_autopay",
+      "status": "halted",
+      "escalation_level": "terminal_halt",
+      "attempt_count": 3,
+      "phone_number": "+919876500022",
+      "is_dnd": false,
+      "is_opted_out": false,
+      "language_preference": "hinglish",
+      "created_at": "2026-09-03T20:31:09.567491Z",
+      "updated_at": "2026-09-03T20:31:09.567493Z",
+      "audit_record_count": 5
+    },
+    {
+      "case_id": "case_003",
+      "subscription_id": "sub_c14d92f7",
+      "customer_name": "R. Kumar",
+      "amount_due_paise": 120000,
+      "failure_code": "mandate_revoked",
+      "instrument_type": "upi_autopay",
+      "status": "halted",
+      "escalation_level": "terminal_halt",
+      "attempt_count": 0,
+      "phone_number": null,
+      "is_dnd": false,
+      "is_opted_out": false,
+      "language_preference": "hinglish",
+      "created_at": "2026-09-03T20:31:09.568384Z",
+      "updated_at": "2026-09-03T20:31:09.568385Z",
+      "audit_record_count": 2
+    },
+    {
+      "case_id": "case_004",
+      "subscription_id": "sub_7a5f1e30",
+      "customer_name": "M. Iyer",
+      "amount_due_paise": 899000,
+      "failure_code": "3ds_dropoff",
+      "instrument_type": "upi_autopay",
+      "status": "halted",
+      "escalation_level": "terminal_halt",
+      "attempt_count": 3,
+      "phone_number": "+919876500044",
+      "is_dnd": false,
+      "is_opted_out": false,
+      "language_preference": "hinglish",
+      "created_at": "2026-09-03T20:31:09.568540Z",
+      "updated_at": "2026-09-03T20:31:09.568541Z",
+      "audit_record_count": 5
+    },
+    {
+      "case_id": "case_005",
+      "subscription_id": "sub_e2c6b038",
+      "customer_name": "S. Nair",
+      "amount_due_paise": 45000,
+      "failure_code": "bank_downtime",
+      "instrument_type": "upi_autopay",
+      "status": "active",
+      "escalation_level": "digital_nudge",
+      "attempt_count": 3,
+      "phone_number": "+919876500055",
+      "is_dnd": true,
+      "is_opted_out": false,
+      "language_preference": "hinglish",
+      "created_at": "2026-09-03T20:31:09.569024Z",
+      "updated_at": "2026-09-03T20:31:09.569025Z",
+      "audit_record_count": 5
+    },
+    {
+      "case_id": "case_006",
+      "subscription_id": "sub_16bd7a52",
+      "customer_name": "K. Reddy",
+      "amount_due_paise": 310000,
+      "failure_code": "payment_timed_out",
+      "instrument_type": "upi_autopay",
+      "status": "active",
+      "escalation_level": "digital_nudge",
+      "attempt_count": 4,
+      "phone_number": "+919876500066",
+      "is_dnd": false,
+      "is_opted_out": false,
+      "language_preference": "hinglish",
+      "created_at": "2026-09-03T20:31:09.569495Z",
+      "updated_at": "2026-09-03T20:31:09.569495Z",
+      "audit_record_count": 5
+    }
+  ],
+  "audits": {
+    "case_001": [
+      {
+        "audit_id": "aud_95c904761c91",
+        "timestamp_utc": "2026-09-03T20:31:09.562060Z",
+        "subscription_id": "sub_9f2a71c4",
+        "actor": "RAZORPAY_WEBHOOK_HANDLER",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "EVENT_PAYMENT_FAILED",
+        "inputs": {
+          "event": "payment.failed",
+          "reason": "insufficient_funds"
+        },
+        "execution_payload": {
+          "failure_code": "insufficient_funds"
+        },
+        "compliance_check": {},
+        "previous_hash": "genesis",
+        "record_hash": "b197da038dce8a0b62541689d8ce778fe1ecaa63240fab435b875631ce017e4e"
+      },
+      {
+        "audit_id": "aud_9199152f90e3",
+        "timestamp_utc": "2026-09-03T20:31:09.565606Z",
+        "subscription_id": "sub_9f2a71c4",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "smart_retry",
+          "attempt": 0
+        },
+        "execution_payload": {
+          "action_type": "sms_nudge",
+          "channel": "sms",
+          "scheduled_at": "2026-04-01T09:30:00+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "b197da038dce8a0b62541689d8ce778fe1ecaa63240fab435b875631ce017e4e",
+        "record_hash": "7240796298eaa986bea65196b78617e772bc00e2e6547632453fb5f3839fbce4"
+      },
+      {
+        "audit_id": "aud_3f1e98a43885",
+        "timestamp_utc": "2026-09-03T20:31:09.566227Z",
+        "subscription_id": "sub_9f2a71c4",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "smart_retry",
+          "attempt": 1
+        },
+        "execution_payload": {
+          "action_type": "backend_retry",
+          "channel": null,
+          "scheduled_at": "2026-04-02T04:00:00+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "7240796298eaa986bea65196b78617e772bc00e2e6547632453fb5f3839fbce4",
+        "record_hash": "632336678f0dbfa21119b9feba9c8321703f6c3443d39420f88993facb0bf82a"
+      },
+      {
+        "audit_id": "aud_8093a80ed3ff",
+        "timestamp_utc": "2026-09-03T20:31:09.566831Z",
+        "subscription_id": "sub_9f2a71c4",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "smart_retry",
+          "attempt": 2
+        },
+        "execution_payload": {
+          "action_type": "backend_retry",
+          "channel": null,
+          "scheduled_at": "2026-04-03T04:00:00+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "632336678f0dbfa21119b9feba9c8321703f6c3443d39420f88993facb0bf82a",
+        "record_hash": "b58e4b543d8c49f31771e8b61bcdee0a647ee62a3a3c64faf887398d335b9695"
+      },
+      {
+        "audit_id": "aud_8c005a08a310",
+        "timestamp_utc": "2026-09-03T20:31:09.567028Z",
+        "subscription_id": "sub_9f2a71c4",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "smart_retry",
+          "attempt": 3
+        },
+        "execution_payload": {
+          "action_type": "backend_retry",
+          "channel": null,
+          "scheduled_at": "2026-04-04T04:00:00+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "b58e4b543d8c49f31771e8b61bcdee0a647ee62a3a3c64faf887398d335b9695",
+        "record_hash": "b50062032a7bff5436c72600abba28bdc1166676ae30f3d87d88c827b864268a"
+      }
+    ],
+    "case_002": [
+      {
+        "audit_id": "aud_5263f77b6fa5",
+        "timestamp_utc": "2026-09-03T20:31:09.567521Z",
+        "subscription_id": "sub_3b8e40d9",
+        "actor": "RAZORPAY_WEBHOOK_HANDLER",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "EVENT_PAYMENT_FAILED",
+        "inputs": {
+          "event": "payment.failed",
+          "reason": "card_expired"
+        },
+        "execution_payload": {
+          "failure_code": "card_expired"
+        },
+        "compliance_check": {},
+        "previous_hash": "genesis",
+        "record_hash": "7fa080c7a633b675133cdf75297702fc68d4490c7d2583b6b1cd33ddfb6a2c74"
+      },
+      {
+        "audit_id": "aud_37efd0fd42e6",
+        "timestamp_utc": "2026-09-03T20:31:09.567645Z",
+        "subscription_id": "sub_3b8e40d9",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "digital_nudge",
+          "attempt": 0
+        },
+        "execution_payload": {
+          "action_type": "method_switch_link",
+          "channel": "whatsapp",
+          "scheduled_at": "2026-09-05T20:31:09.567491+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "7fa080c7a633b675133cdf75297702fc68d4490c7d2583b6b1cd33ddfb6a2c74",
+        "record_hash": "4fa4c8365f2d7c48441374984ff3b6bfdfcca438d73998bd7dee3124a36896b4"
+      },
+      {
+        "audit_id": "aud_1161eac349b8",
+        "timestamp_utc": "2026-09-03T20:31:09.567793Z",
+        "subscription_id": "sub_3b8e40d9",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "COOLING_OFF_DEFERRED",
+        "inputs": {
+          "escalation_level": "digital_nudge",
+          "attempt": 1
+        },
+        "execution_payload": {
+          "action_type": "method_switch_link",
+          "channel": "whatsapp",
+          "scheduled_at": "2026-09-07T20:31:09.567491+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "4fa4c8365f2d7c48441374984ff3b6bfdfcca438d73998bd7dee3124a36896b4",
+        "record_hash": "d5f0df5901d844482b625c2d07c3a270b9839299d099daea675471b64dd5b548"
+      },
+      {
+        "audit_id": "aud_77124d97d333",
+        "timestamp_utc": "2026-09-03T20:31:09.567955Z",
+        "subscription_id": "sub_3b8e40d9",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "COOLING_OFF_DEFERRED",
+        "inputs": {
+          "escalation_level": "voice_intercept",
+          "attempt": 2
+        },
+        "execution_payload": {
+          "action_type": "voice_call",
+          "channel": "voice",
+          "scheduled_at": "2026-09-09T20:31:09.567491+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "d5f0df5901d844482b625c2d07c3a270b9839299d099daea675471b64dd5b548",
+        "record_hash": "d6e1e35c1c4337032fd7f7a45da922c84261e6c8af877e0a877ff7b783b9760e"
+      },
+      {
+        "audit_id": "aud_e138fa201207",
+        "timestamp_utc": "2026-09-03T20:31:09.568115Z",
+        "subscription_id": "sub_3b8e40d9",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "HALT_NO_FURTHER_ACTION",
+        "inputs": {
+          "escalation_level": "terminal_halt"
+        },
+        "execution_payload": {
+          "status": "halted"
+        },
+        "compliance_check": {},
+        "previous_hash": "d6e1e35c1c4337032fd7f7a45da922c84261e6c8af877e0a877ff7b783b9760e",
+        "record_hash": "b7af3143c0d323c7ca09779e1654314d0c2f38392ebad5e2876926e82fb0ce19"
+      }
+    ],
+    "case_003": [
+      {
+        "audit_id": "aud_520aa03c7aee",
+        "timestamp_utc": "2026-09-03T20:31:09.568401Z",
+        "subscription_id": "sub_c14d92f7",
+        "actor": "RAZORPAY_WEBHOOK_HANDLER",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "EVENT_PAYMENT_FAILED",
+        "inputs": {
+          "event": "payment.failed",
+          "reason": "mandate_revoked"
+        },
+        "execution_payload": {
+          "failure_code": "mandate_revoked"
+        },
+        "compliance_check": {},
+        "previous_hash": "genesis",
+        "record_hash": "5f783e966f91347a5fc159872b36b866457d3ffbd16b379334494c987cb2b802"
+      },
+      {
+        "audit_id": "aud_64262f73daf6",
+        "timestamp_utc": "2026-09-03T20:31:09.568441Z",
+        "subscription_id": "sub_c14d92f7",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "HALT_NO_FURTHER_ACTION",
+        "inputs": {
+          "escalation_level": "terminal_halt"
+        },
+        "execution_payload": {
+          "status": "halted"
+        },
+        "compliance_check": {},
+        "previous_hash": "5f783e966f91347a5fc159872b36b866457d3ffbd16b379334494c987cb2b802",
+        "record_hash": "dd1c2ba783cbd307e231e1b1ed000607665f75c185615ac3778a5c5dcf638d53"
+      }
+    ],
+    "case_004": [
+      {
+        "audit_id": "aud_854928191128",
+        "timestamp_utc": "2026-09-03T20:31:09.568552Z",
+        "subscription_id": "sub_7a5f1e30",
+        "actor": "RAZORPAY_WEBHOOK_HANDLER",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "EVENT_PAYMENT_FAILED",
+        "inputs": {
+          "event": "payment.failed",
+          "reason": "3ds_dropoff"
+        },
+        "execution_payload": {
+          "failure_code": "3ds_dropoff"
+        },
+        "compliance_check": {},
+        "previous_hash": "genesis",
+        "record_hash": "dac303a773d3bdb949f38d1206f1abf4ba6a704b92c57abfa7e76312d89721e4"
+      },
+      {
+        "audit_id": "aud_ee28cd4f847b",
+        "timestamp_utc": "2026-09-03T20:31:09.568618Z",
+        "subscription_id": "sub_7a5f1e30",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "digital_nudge",
+          "attempt": 0
+        },
+        "execution_payload": {
+          "action_type": "friction_reduction_link",
+          "channel": "whatsapp",
+          "scheduled_at": "2026-09-05T20:31:09.568540+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "dac303a773d3bdb949f38d1206f1abf4ba6a704b92c57abfa7e76312d89721e4",
+        "record_hash": "4cdf7e84a4c1544f57943498e867147e7ef8082c0bed79d24e8e27640c280cb6"
+      },
+      {
+        "audit_id": "aud_2bf61ba6c1a9",
+        "timestamp_utc": "2026-09-03T20:31:09.568702Z",
+        "subscription_id": "sub_7a5f1e30",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "COOLING_OFF_DEFERRED",
+        "inputs": {
+          "escalation_level": "digital_nudge",
+          "attempt": 1
+        },
+        "execution_payload": {
+          "action_type": "friction_reduction_link",
+          "channel": "whatsapp",
+          "scheduled_at": "2026-09-07T20:31:09.568540+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "4cdf7e84a4c1544f57943498e867147e7ef8082c0bed79d24e8e27640c280cb6",
+        "record_hash": "0fc3fd5429bc53c44425e3bd402a8dbe0c0ce6793b32d727749788a9808f5933"
+      },
+      {
+        "audit_id": "aud_9ca3863eabdf",
+        "timestamp_utc": "2026-09-03T20:31:09.568779Z",
+        "subscription_id": "sub_7a5f1e30",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "COOLING_OFF_DEFERRED",
+        "inputs": {
+          "escalation_level": "voice_intercept",
+          "attempt": 2
+        },
+        "execution_payload": {
+          "action_type": "voice_call",
+          "channel": "voice",
+          "scheduled_at": "2026-09-09T20:31:09.568540+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "0fc3fd5429bc53c44425e3bd402a8dbe0c0ce6793b32d727749788a9808f5933",
+        "record_hash": "01aeb37fcf0c14ddc1b6aea4ff1303bec662ea51885a422ae8244fcfb367a460"
+      },
+      {
+        "audit_id": "aud_be1b53b31526",
+        "timestamp_utc": "2026-09-03T20:31:09.568831Z",
+        "subscription_id": "sub_7a5f1e30",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "HALT_NO_FURTHER_ACTION",
+        "inputs": {
+          "escalation_level": "terminal_halt"
+        },
+        "execution_payload": {
+          "status": "halted"
+        },
+        "compliance_check": {},
+        "previous_hash": "01aeb37fcf0c14ddc1b6aea4ff1303bec662ea51885a422ae8244fcfb367a460",
+        "record_hash": "18d32c515bc3e8bd52c6c02e7be410b52dbd9439865ad1bddf2e38592096f782"
+      }
+    ],
+    "case_005": [
+      {
+        "audit_id": "aud_31a1c0b130ce",
+        "timestamp_utc": "2026-09-03T20:31:09.569036Z",
+        "subscription_id": "sub_e2c6b038",
+        "actor": "RAZORPAY_WEBHOOK_HANDLER",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "EVENT_PAYMENT_FAILED",
+        "inputs": {
+          "event": "payment.failed",
+          "reason": "bank_downtime"
+        },
+        "execution_payload": {
+          "failure_code": "bank_downtime"
+        },
+        "compliance_check": {},
+        "previous_hash": "genesis",
+        "record_hash": "d5904be2b16b565036282bf98fe4d80dd5f03008adaf77514f60d8436f2cf73f"
+      },
+      {
+        "audit_id": "aud_4765cd814c05",
+        "timestamp_utc": "2026-09-03T20:31:09.569100Z",
+        "subscription_id": "sub_e2c6b038",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "smart_retry",
+          "attempt": 0
+        },
+        "execution_payload": {
+          "action_type": "backend_retry",
+          "channel": null,
+          "scheduled_at": "2026-04-02T09:30:00+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "d5904be2b16b565036282bf98fe4d80dd5f03008adaf77514f60d8436f2cf73f",
+        "record_hash": "92849c322200c4269e9f6ce90c70262654680c4165105b4812645a2214e5101c"
+      },
+      {
+        "audit_id": "aud_76e2f96a9a40",
+        "timestamp_utc": "2026-09-03T20:31:09.569179Z",
+        "subscription_id": "sub_e2c6b038",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "smart_retry",
+          "attempt": 1
+        },
+        "execution_payload": {
+          "action_type": "backend_retry",
+          "channel": null,
+          "scheduled_at": "2026-04-03T10:30:00+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "92849c322200c4269e9f6ce90c70262654680c4165105b4812645a2214e5101c",
+        "record_hash": "7874bfe5c5862bc034226ca581e76477d73f55c610ec9e0b6ddabfcfc04d48a8"
+      },
+      {
+        "audit_id": "aud_c219355cdda6",
+        "timestamp_utc": "2026-09-03T20:31:09.569241Z",
+        "subscription_id": "sub_e2c6b038",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "smart_retry",
+          "attempt": 2
+        },
+        "execution_payload": {
+          "action_type": "backend_retry",
+          "channel": null,
+          "scheduled_at": "2026-04-04T11:30:00+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "7874bfe5c5862bc034226ca581e76477d73f55c610ec9e0b6ddabfcfc04d48a8",
+        "record_hash": "e9ae5f0f6dbd963db5b154db2598178fd1e42caa765062b67ee10c7bbdd222f6"
+      },
+      {
+        "audit_id": "aud_f5c9361589d9",
+        "timestamp_utc": "2026-09-03T20:31:09.569302Z",
+        "subscription_id": "sub_e2c6b038",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "HALT_NO_FURTHER_ACTION",
+        "inputs": {
+          "escalation_level": "digital_nudge"
+        },
+        "execution_payload": {
+          "status": "active"
+        },
+        "compliance_check": {},
+        "previous_hash": "e9ae5f0f6dbd963db5b154db2598178fd1e42caa765062b67ee10c7bbdd222f6",
+        "record_hash": "73f1dddf4ff1d867609812b71de9be61386a8f7d9dce3c8d85d0bbd12cbac47d"
+      }
+    ],
+    "case_006": [
+      {
+        "audit_id": "aud_6d757cd9b0f1",
+        "timestamp_utc": "2026-09-03T20:31:09.569506Z",
+        "subscription_id": "sub_16bd7a52",
+        "actor": "RAZORPAY_WEBHOOK_HANDLER",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "EVENT_PAYMENT_FAILED",
+        "inputs": {
+          "event": "payment.failed",
+          "reason": "payment_timed_out"
+        },
+        "execution_payload": {
+          "failure_code": "payment_timed_out"
+        },
+        "compliance_check": {},
+        "previous_hash": "genesis",
+        "record_hash": "1db17e9315717a181cb44e493de99448472dbf8da6338f0fc3d8dd3e1f8624de"
+      },
+      {
+        "audit_id": "aud_0a5ce7b8dda4",
+        "timestamp_utc": "2026-09-03T20:31:09.569558Z",
+        "subscription_id": "sub_16bd7a52",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "smart_retry",
+          "attempt": 0
+        },
+        "execution_payload": {
+          "action_type": "backend_retry",
+          "channel": null,
+          "scheduled_at": "2026-04-01T13:30:00+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "1db17e9315717a181cb44e493de99448472dbf8da6338f0fc3d8dd3e1f8624de",
+        "record_hash": "37b51b5ca068550b6b549bad96f28568fdfe2f14d51fa10bbd7c94e998b5b478"
+      },
+      {
+        "audit_id": "aud_b81286f94b1f",
+        "timestamp_utc": "2026-09-03T20:31:09.569618Z",
+        "subscription_id": "sub_16bd7a52",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "smart_retry",
+          "attempt": 1
+        },
+        "execution_payload": {
+          "action_type": "backend_retry",
+          "channel": null,
+          "scheduled_at": "2026-04-01T18:30:00+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "37b51b5ca068550b6b549bad96f28568fdfe2f14d51fa10bbd7c94e998b5b478",
+        "record_hash": "7e07b287a9890f35ea674d59d9efd6269745334f43cd5da62a6166cc2c6a6117"
+      },
+      {
+        "audit_id": "aud_9a502aeb862c",
+        "timestamp_utc": "2026-09-03T20:31:09.569675Z",
+        "subscription_id": "sub_16bd7a52",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "GUARD_PERMITTED",
+        "inputs": {
+          "escalation_level": "smart_retry",
+          "attempt": 2
+        },
+        "execution_payload": {
+          "action_type": "backend_retry",
+          "channel": null,
+          "scheduled_at": "2026-04-01T23:30:00+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "7e07b287a9890f35ea674d59d9efd6269745334f43cd5da62a6166cc2c6a6117",
+        "record_hash": "14d7f3c96ac751c9596957aa34cc290257f818103526bca1d8b6abd35d783d85"
+      },
+      {
+        "audit_id": "aud_be41863c262f",
+        "timestamp_utc": "2026-09-03T20:31:09.569746Z",
+        "subscription_id": "sub_16bd7a52",
+        "actor": "AGENT_POLICY_ENGINE",
+        "policy_version": "v2026.1.0",
+        "rule_triggered": "TRAI_HOURS_DEFERRED",
+        "inputs": {
+          "escalation_level": "digital_nudge",
+          "attempt": 3
+        },
+        "execution_payload": {
+          "action_type": "sms_nudge",
+          "channel": "sms",
+          "scheduled_at": "2026-04-02T04:00:00+00:00"
+        },
+        "compliance_check": {},
+        "previous_hash": "14d7f3c96ac751c9596957aa34cc290257f818103526bca1d8b6abd35d783d85",
+        "record_hash": "c9148c2af7e6cae8efadc1b44c99d6d06f499c88867be48af757a8dd2f5a41e1"
+      }
+    ]
+  }
+}

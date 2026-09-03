@@ -1,128 +1,126 @@
-'use client';
+import React from 'react';
+import { SectionHeader, Card, Button } from './components/primitives';
+import { KpiStrip, StatTile, Funnel } from './components/Kpi';
+import { IntervalPlot, IntervalRow } from './components/IntervalPlot';
+import { IconArrowRight } from './components/icons';
+import { benchmark, armRow, pairedDelta, ARM_LABELS } from '../lib/data';
+import { inrFromRupees, signedInr } from '../lib/format';
 
-import React, { useEffect, useState } from 'react';
+export const metadata = { title: 'Recoup — the result' };
 
-interface CaseData {
-  case_id: string;
-  subscription_id: string;
-  customer_name: string;
-  amount_due_paise: number;
-  failure_code: string;
-  status: string;
-  escalation_level: string;
-  attempt_count: number;
-  created_at: string;
+function econ(metric: string, arm: string) {
+  return armRow(benchmark.economics, metric)?.arms[arm];
+}
+function tech(metric: string, arm: string) {
+  return armRow(benchmark.technical, metric)?.arms[arm];
 }
 
-export default function BatchPage() {
-  const [cases, setCases] = useState<CaseData[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function ResultPage() {
+  const incNet = econ('Incremental Net Capital', 'SmartBoundedVoice'); // ₹+26,406.55 ± ₹11,059.66
+  const violStraw = tech('Guard Violations', 'NaiveUnbounded'); // 286.9 ± 8.2
+  const refused = tech('Declined Chases', 'NaiveBounded'); // 24.3 ± 2.0
 
-  useEffect(() => {
-    fetch('http://localhost:8000/cases')
-      .then((res) => res.json())
-      .then((data) => {
-        setCases(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setCases([
-          {
-            case_id: 'case_101',
-            subscription_id: 'sub_Nx983jK29LzP',
-            customer_name: 'Aarav Sharma',
-            amount_due_paise: 249900,
-            failure_code: 'insufficient_funds',
-            status: 'active',
-            escalation_level: 'smart_retry',
-            attempt_count: 1,
-            created_at: '2026-04-01T09:30:00Z',
-          },
-          {
-            case_id: 'case_102',
-            subscription_id: 'sub_Pq452mR88KxM',
-            customer_name: 'Diya Patel',
-            amount_due_paise: 650000,
-            failure_code: 'card_expired',
-            status: 'p2p_scheduled',
-            escalation_level: 'voice_intercept',
-            attempt_count: 2,
-            created_at: '2026-04-01T10:15:00Z',
-          },
-          {
-            case_id: 'case_103',
-            subscription_id: 'sub_Zk991aB33YyT',
-            customer_name: 'Rahul Kumar',
-            amount_due_paise: 120000,
-            failure_code: 'mandate_revoked',
-            status: 'declined',
-            escalation_level: 'terminal_halt',
-            attempt_count: 0,
-            created_at: '2026-04-01T11:00:00Z',
-          },
-        ]);
-        setLoading(false);
-      });
-  }, []);
+  const gross = econ('Gross Revenue Recovered', 'SmartBoundedVoice');
+  const mdr = econ('Gateway MDR', 'SmartBoundedVoice');
+  const delivery = econ('Channel Delivery Spend', 'SmartBoundedVoice');
+  const fatigue = econ('Contact Churn Fatigue', 'SmartBoundedVoice');
+  const net = econ('Net Recovered Capital', 'SmartBoundedVoice');
+  const costs =
+    (mdr?.mean ?? 0) + (delivery?.mean ?? 0) + (fatigue?.mean ?? 0);
 
-  const totalAtRisk = cases.reduce((acc, c) => acc + c.amount_due_paise, 0) / 100;
-  const declinedCount = cases.filter((c) => c.status === 'declined' || c.status === 'halted').length;
+  const deltaRows: IntervalRow[] = [
+    ['NaiveUnbounded → NaiveBounded', 'Unbounded → Bounded'],
+    ['NaiveBounded → SmartBounded', 'Bounded → Smart'],
+    ['SmartBounded → SmartBoundedVoice', 'Smart → Smart + Voice'],
+  ].map(([key, label]) => {
+    const d = pairedDelta(key, 'Value Recovery Rate')!;
+    return {
+      label,
+      mean: d.mean ?? 0,
+      ci: d.ci ?? 0,
+      valueText: d.text,
+      tooltip: d.interpretation,
+    };
+  });
 
   return (
-    <div>
-      <h1 style={{ marginBottom: '1.5rem', fontSize: '1.875rem' }}>Portfolio Batch Overview</h1>
-      
-      <div className="grid-3">
-        <div className="card">
-          <div className="card-title">Total Revenue at Risk</div>
-          <div className="card-value" style={{ color: 'var(--accent-cyan)' }}>
-            ₹{totalAtRisk.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-title">Active Portfolio Cases</div>
-          <div className="card-value">{cases.length}</div>
-        </div>
-        <div className="card">
-          <div className="card-title">Declined / Halted Chases</div>
-          <div className="card-value" style={{ color: 'var(--accent-amber)' }}>{declinedCount}</div>
-        </div>
-      </div>
+    <div className="stack">
+      <SectionHeader
+        kicker="Result"
+        title="What the agent recovered — and how sure we are of it"
+        description={
+          <>
+            Four recovery strategies run over the same {benchmark.cases_per_seed} failed-payment cases,{' '}
+            {benchmark.seeds} times, sharing pseudorandom draws so the paired difference isolates each design
+            decision. Every figure below is read straight from the generated benchmark report.
+          </>
+        }
+      />
 
-      <div className="card">
-        <div className="card-title">Failed Subscription Cases</div>
-        <div className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Case ID</th>
-                <th>Customer</th>
-                <th>Amount (INR)</th>
-                <th>Failure Root Cause</th>
-                <th>Escalation Level</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cases.map((c) => (
-                <tr key={c.case_id}>
-                  <td><code>{c.case_id}</code></td>
-                  <td>{c.customer_name}</td>
-                  <td>₹{(c.amount_due_paise / 100).toLocaleString('en-IN')}</td>
-                  <td><code>{c.failure_code}</code></td>
-                  <td><span className="badge badge-active">{c.escalation_level}</span></td>
-                  <td><span className={`badge badge-${c.status}`}>{c.status}</span></td>
-                  <td>
-                    <a href={`/case/${c.case_id}`} className="btn" style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}>
-                      View Timeline
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <KpiStrip withHero>
+        <StatTile
+          hero
+          label="Net capital recovered per batch, over the guarded baseline"
+          value={signedInr(incNet?.mean ?? 0)}
+          ci={`± ${inrFromRupees(incNet?.ci ?? 0)}  ·  95% CI`}
+          sub="baseline = Naive · bounded: full TRAI/DND guards + digital channels, no retry tuning, no voice. This is the added capital on top of it."
+        />
+        <StatTile
+          tone="pos"
+          label="Compliance-guard violations"
+          value="0"
+          ci="TRAI hours · cooling-off · DND"
+          sub={`the unbounded strawman: ${violStraw?.text ?? '—'} per batch`}
+        />
+        <StatTile
+          href="/refused"
+          label="Accounts refused as structurally dead"
+          value={refused?.text ?? '—'}
+          ci="examined · classified · chased 0 times"
+          sub="open the refusal ledger →"
+        />
+      </KpiStrip>
+
+      <Card label="Where the lift comes from — paired value-recovery-rate deltas">
+        <IntervalPlot
+          rows={deltaRows}
+          unitLabel="percentage points of value recovered (INR-weighted)"
+          caption={benchmark.provenance}
+        />
+        <p className="muted" style={{ fontSize: '0.88rem', marginTop: '0.9rem' }}>
+          Each step adds one design decision. All three intervals clear zero — the hero number above is wide
+          (±42% of its estimate), but it is built from these, and the mechanism deltas are tight. The voice
+          intercept has the largest point estimate and the widest interval, because it acts on a small number
+          of high-value accounts.{' '}
+          <a className="btn link" href="/benchmark">See the full decomposition <IconArrowRight size={13} /></a>
+        </p>
+      </Card>
+
+      <Card label="Per-batch economics · Smart · bounded + voice">
+        <Funnel
+          tiles={[
+            <StatTile key="g" label="Gross recovered" value={inrFromRupees(gross?.mean ?? 0)} ci={`± ${inrFromRupees(gross?.ci ?? 0)}`} />,
+            <StatTile key="c" label="less MDR + delivery + fatigue" value={`− ${inrFromRupees(costs)}`} sub="2% MDR · SMS/WA/voice · churn-fatigue" />,
+            <StatTile key="n" tone="pos" label="Net recovered capital" value={inrFromRupees(net?.mean ?? 0)} ci={`± ${inrFromRupees(net?.ci ?? 0)}`} />,
+          ]}
+        />
+      </Card>
+
+      <div className="grid-2">
+        <Card label="What it refused to touch">
+          <p className="muted" style={{ fontSize: '0.9rem' }}>
+            {benchmark.seeds ? '' : ''}The one screen most recovery dashboards don&apos;t have: the accounts the
+            agent examined and deliberately did not chase.
+          </p>
+          <div style={{ marginTop: '0.9rem' }}><Button href="/refused" variant="quiet">Open the refusal ledger <IconArrowRight size={14} /></Button></div>
+        </Card>
+        <Card label="Why the obvious approach fails">
+          <p className="muted" style={{ fontSize: '0.9rem' }}>
+            The unbounded strawman chases everything and racks up {violStraw?.text ?? ''} guard violations for
+            worse net recovery. Doing strictly less futile work is the optimisation.
+          </p>
+          <div style={{ marginTop: '0.9rem' }}><Button href="/benchmark" variant="quiet">Read the mechanism <IconArrowRight size={14} /></Button></div>
+        </Card>
       </div>
     </div>
   );

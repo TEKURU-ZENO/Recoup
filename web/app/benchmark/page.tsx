@@ -1,214 +1,184 @@
-'use client';
-
 import React from 'react';
+import { SectionHeader, Card, Callout } from '../components/primitives';
+import { IntervalPlot, IntervalRow } from '../components/IntervalPlot';
+import { benchmark, ARMS, ARM_LABELS } from '../../lib/data';
+
+export const metadata = { title: 'Recoup — why it works' };
+
+const SHORT: Record<string, string> = {
+  'NaiveUnbounded → NaiveBounded': 'Unbounded → Bounded',
+  'NaiveBounded → SmartBounded': 'Bounded → Smart',
+  'SmartBounded → SmartBoundedVoice': 'Smart → Smart + Voice',
+};
+
+function deltaRows(metric: string): IntervalRow[] {
+  return benchmark.paired_deltas
+    .filter((d) => d.metric.toLowerCase().includes(metric.toLowerCase()) && d.mean !== undefined)
+    .map((d) => ({
+      label: SHORT[d.comparison] ?? d.comparison,
+      mean: d.mean ?? 0,
+      ci: d.ci ?? 0,
+      valueText: d.text,
+      tooltip: d.interpretation,
+    }));
+}
 
 export default function BenchmarkPage() {
+  const valueRows = deltaRows('Value Recovery Rate');
+  const caseRows = deltaRows('Case Resolution Rate');
+
+  const fmLifts: IntervalRow[] = benchmark.failure_modes
+    .filter((f) => f.lift && f.lift.mean !== undefined)
+    .map((f) => ({
+      label: f.failure_code,
+      mean: f.lift!.mean ?? 0,
+      ci: f.lift!.ci ?? 0,
+      valueText: `${(f.lift!.mean ?? 0) >= 0 ? '+' : ''}${f.lift!.mean}pp ± ${f.lift!.ci}pp`,
+      tooltip: f.mechanism.replace(/\*\*/g, '').replace(/\*/g, ''),
+    }));
+
   return (
-    <div>
-      <h1 style={{ marginBottom: '1.5rem', fontSize: '1.875rem' }}>
-        Benchmark Comparison: 4-Arm Empirical Decomposition & Economics
-      </h1>
+    <div className="stack">
+      <SectionHeader
+        kicker="Why it works"
+        title="Four arms, one difference at a time"
+        description="Each arm adds a single design decision to the one before it. Under common random numbers the paired per-seed difference cancels shared portfolio variance, so a narrow interval that clears zero is a real causal effect."
+      />
 
-      <div
-        className="card"
-        style={{
-          marginBottom: '2rem',
-          borderLeft: '4px solid var(--accent-amber)',
-          background: 'rgba(245, 158, 11, 0.05)',
-        }}
-      >
-        <div style={{ fontWeight: 600, marginBottom: '0.25rem' }}>Calibration Notice</div>
-        <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
-          Absolute recovery levels (≈52–57%) are uncalibrated against production cohorts (where industry dunning typically runs 15–30%).
-          The meaningful metrics are the <strong>paired deltas between arms under identical Common Random Number (CRN) draws</strong>, which cancel shared variance to isolate causal mechanisms.
-        </div>
-      </div>
+      <Callout variant="warn" title="Calibration notice">
+        Absolute recovery levels (~41–49%) sit at the optimistic end of directional industry ranges
+        (passive email ~15–25%, retries + branched dunning ~25–40%, omni-channel ~35–45%). They are a
+        property of the outcome model, not a validated match to a production cohort, and production
+        calibration is Phase&nbsp;1 of the rollout. The claim is the paired deltas between arms — everything
+        drawn below.
+      </Callout>
 
-      {/* Paired-Delta Summary */}
-      <div className="card" style={{ marginBottom: '2rem' }}>
-        <div className="card-title">4-Arm Paired-Delta Decomposition (20 Seeds, 215 Cases/Seed, CRN-Paired)</div>
-        <div className="table-container">
+      <Card label="Paired delta — value recovery rate (INR-weighted)">
+        <IntervalPlot rows={valueRows} unitLabel="percentage points of INR recovered" caption={benchmark.provenance} />
+      </Card>
+
+      <Card label="Paired delta — case resolution rate (count)">
+        <IntervalPlot rows={caseRows} unitLabel="percentage points of cases resolved" />
+        <p className="muted" style={{ fontSize: '0.88rem', marginTop: '0.8rem' }}>
+          The case delta and the value delta point in complementary directions: the decoupled dunning ladder
+          resolves proportionally more small accounts (long tail), while the voice intercept adds little case
+          count but the most value (top of book).
+        </p>
+      </Card>
+
+      <Card label="Failure-mode disaggregation">
+        <p className="muted" style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>
+          Two failure modes carry a measurable paired lift. <code>card_expired</code> is statistically
+          established; <code>3ds_dropoff</code> is directional only — its interval straddles zero, and the plot
+          says so.
+        </p>
+        <IntervalPlot rows={fmLifts} unitLabel="percentage points, paired lift vs unbounded" />
+        <div className="table-wrap" style={{ marginTop: '1.2rem' }}>
           <table>
             <thead>
               <tr>
-                <th>Comparison</th>
-                <th>Isolated Variable</th>
-                <th>Paired Value Δ (INR)</th>
-                <th>Paired Case Δ (Count)</th>
-                <th>Empirical Mechanism</th>
+                <th scope="col">Failure root cause</th>
+                <th className="num">Batch total</th>
+                {ARMS.map((a) => (
+                  <th key={a} className="num">{ARM_LABELS[a]}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td style={{ fontWeight: 600 }}>NaiveUnbounded → NaiveBounded</td>
-                <td>Bounded Guards & Links</td>
-                <td><strong>+1.65pp ± 1.51pp</strong></td>
-                <td><strong>+1.07pp ± 0.96pp</strong></td>
-                <td>Channel substitution: links replace futile retries on dead cards</td>
-              </tr>
-              <tr>
-                <td style={{ fontWeight: 600 }}>NaiveBounded → SmartBounded</td>
-                <td>Decoupled Dunning Ladder</td>
-                <td style={{ color: 'var(--accent-emerald)' }}><strong>+2.37pp ± 1.13pp</strong></td>
-                <td style={{ color: 'var(--accent-emerald)' }}><strong>+2.91pp ± 0.89pp</strong></td>
-                <td>Decoupled dunning: Day-1 nudge captures intent, 28th auto-debit captures liquidity (-71 retries)</td>
-              </tr>
-              <tr>
-                <td style={{ fontWeight: 600 }}>SmartBounded → SmartBoundedVoice</td>
-                <td>Voice Intercept Telephony (>₹5k)</td>
-                <td style={{ color: 'var(--accent-emerald)' }}><strong>+3.91pp ± 2.05pp</strong></td>
-                <td><strong>+0.88pp ± 0.42pp</strong></td>
-                <td>5.8 calls cost ₹29.00 and yield ₹16,632 net capital (37.4% conv., target &gt;₹5k)</td>
-              </tr>
-              <tr style={{ borderTop: '2px solid var(--border-color)', background: 'rgba(16, 185, 129, 0.05)' }}>
-                <td style={{ fontWeight: 700 }}>Cumulative System Lift</td>
-                <td>Full Autonomous Recovery Agent</td>
-                <td style={{ color: 'var(--accent-emerald)', fontWeight: 700 }}><strong>+7.92pp ± 2.45pp</strong></td>
-                <td style={{ color: 'var(--accent-emerald)', fontWeight: 700 }}><strong>+4.86pp ± 1.25pp</strong></td>
-                <td>₹+35,613 net capital recovered per batch, -49.7% retries, zero violations</td>
-              </tr>
+              {benchmark.failure_modes.map((f) => (
+                <tr key={f.failure_code}>
+                  <th scope="row"><code>{f.failure_code}</code></th>
+                  <td className="num">{f.batch_total}</td>
+                  {ARMS.map((a) => (
+                    <td key={a} className="num">{f.rates[a] === null ? '—' : `${f.rates[a]!.toFixed(1)}%`}</td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
 
-      {/* Unit Economics Table */}
-      <div className="card" style={{ marginBottom: '2rem' }}>
-        <div className="card-title">Unit Economics & Margin Accounting (Per Batch of 215 Cases)</div>
-        <div className="table-container">
+      <Card label="Unit economics & cost accounting — per batch, mean ± 95% CI">
+        <div className="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Economic Metric</th>
-                <th>NaiveUnbounded</th>
-                <th>NaiveBounded</th>
-                <th>SmartBounded</th>
-                <th>SmartBoundedVoice</th>
+                <th scope="col">Economic metric</th>
+                {ARMS.map((a) => (
+                  <th key={a} className="num">{ARM_LABELS[a]}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Gross Revenue Recovered</td>
-                <td>₹171,952.85</td>
-                <td>₹179,408.16</td>
-                <td>₹189,383.90</td>
-                <td style={{ fontWeight: 700, color: 'var(--accent-emerald)' }}>₹206,651.16</td>
-              </tr>
-              <tr>
-                <td>Gateway MDR (2.0%)</td>
-                <td>₹3,439.05</td>
-                <td>₹3,588.16</td>
-                <td>₹3,787.67</td>
-                <td>₹4,133.02</td>
-              </tr>
-              <tr>
-                <td>Delivery Spend (SMS/WA/Voice)</td>
-                <td>₹70.54</td>
-                <td>₹33.15</td>
-                <td>₹34.74</td>
-                <td>₹63.74</td>
-              </tr>
-              <tr>
-                <td>Contact Churn Fatigue Cost</td>
-                <td style={{ color: 'var(--accent-rose)' }}>₹1,863.00</td>
-                <td style={{ color: 'var(--accent-emerald)' }}>₹0.00</td>
-                <td style={{ color: 'var(--accent-emerald)' }}>₹0.00</td>
-                <td>₹261.00</td>
-              </tr>
-              <tr style={{ fontWeight: 700, background: 'rgba(255, 255, 255, 0.03)' }}>
-                <td>Net Recovered Capital</td>
-                <td>₹166,580.26</td>
-                <td>₹175,786.85</td>
-                <td>₹185,561.49</td>
-                <td style={{ color: 'var(--accent-cyan)' }}>₹202,193.41</td>
-              </tr>
-              <tr>
-                <td>Incremental Net Capital vs Bounded</td>
-                <td style={{ color: 'var(--accent-rose)' }}>-₹9,206.59</td>
-                <td>₹0.00 (Baseline)</td>
-                <td style={{ color: 'var(--accent-emerald)', fontWeight: 600 }}>+₹9,774.64</td>
-                <td style={{ color: 'var(--accent-cyan)', fontWeight: 700 }}>+₹26,406.56</td>
-              </tr>
-              <tr>
-                <td>Return on Incremental Spend</td>
-                <td style={{ color: 'var(--accent-rose)' }}>Negative</td>
-                <td>Baseline</td>
-                <td style={{ color: 'var(--accent-emerald)' }}>6,147.5x incremental</td>
-                <td style={{ color: 'var(--accent-cyan)', fontWeight: 600 }}>573.5x incremental</td>
-              </tr>
-              <tr>
-                <td>Wasted Spend on Dead Accounts</td>
-                <td style={{ color: 'var(--accent-rose)' }}>₹8.12</td>
-                <td style={{ color: 'var(--accent-emerald)' }}>₹0.00</td>
-                <td style={{ color: 'var(--accent-emerald)' }}>₹0.00</td>
-                <td style={{ color: 'var(--accent-emerald)' }}>₹0.00</td>
-              </tr>
+              {benchmark.economics.map((row) => {
+                const emphasis = /^(Net Recovered Capital|Incremental Net Capital)/.test(row.metric);
+                return (
+                  <tr key={row.metric} className={emphasis ? 'row-emphasis' : undefined}>
+                    <th scope="row">{row.metric}</th>
+                    {ARMS.map((a) => (
+                      <td key={a} className="num">{row.arms[a]?.text ?? '—'}</td>
+                    ))}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
-      </div>
+        <p className="muted" style={{ fontSize: '0.88rem', marginTop: '0.9rem' }}>
+          Stated as an absolute pairing, not a ratio: <strong>₹1.59 more</strong> channel spend (SmartBounded)
+          buys <strong>+₹9,775 ± ₹4,754</strong> net capital; <strong>₹30.59 more</strong> including voice buys{' '}
+          <strong>+₹26,407 ± ₹11,060</strong>. No return-multiple is shown — a ratio on a ~₹1.59 denominator is
+          a vanity number.
+        </p>
+        <p className="provenance">
+          MDR 2.0% on settlements · SMS ₹0.25 · WhatsApp ₹0.50 · voice ₹5.00 · failed retries ₹0.00 · churn
+          fatigue 1.5% hazard × ₹3,000 LTV on contacts &gt; 2 or DND.
+        </p>
+      </Card>
 
-      {/* Analytical Takeaways */}
-      <div className="grid-3" style={{ marginBottom: '2rem' }}>
-        <div className="card">
-          <div className="card-title">Decoupled Dunning Discovery</div>
-          <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-            Decoupling customer communication from auto-debits breaks the scheduling null:
-            <ul style={{ marginTop: '0.5rem', paddingLeft: '1.25rem' }}>
-              <li><strong>+2.37pp Value Lift / +2.91pp Cases</strong> over NaiveBounded</li>
-              <li>Day-1 link captures fresh intent; 28th debit captures peak liquidity</li>
-              <li>Eliminates <strong>71.3 futile retries</strong> before debit</li>
-            </ul>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-title">Complementary Funnel Dynamics</div>
-          <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-            Interventions operate on opposite ends of the balance distribution:
-            <ul style={{ marginTop: '0.5rem', paddingLeft: '1.25rem' }}>
-              <li><strong>Decoupled Links (+2.91pp Cases)</strong>: Drives volume at the long tail (~₹1,200 median)</li>
-              <li><strong>Voice Telephony (+3.91pp Value)</strong>: Drives value at the top of the book (&ge; ₹5,000)</li>
-            </ul>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-title">Voice Telephony: Absolute Economics</div>
-          <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-            High-value targeting (&ge; ₹5,000 averages ₹9,185/case):
-            <ul style={{ marginTop: '0.5rem', paddingLeft: '1.25rem' }}>
-              <li><strong>5.8 calls (₹29.00 spent)</strong> &rarr; <strong>₹16,632 net capital</strong></li>
-              <li>Stress test at 15% conv: recovers ~₹6,200 net</li>
-              <li><strong>Break-Even</strong>: <strong>0.055% conversion</strong> (1 recovery per 1,800 calls)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* Schema Conformance & Policy Legality Check */}
-      <div className="card">
-        <div className="card-title">Schema Conformance & Policy Legality Check (400 Synthetic-Realistic Events)</div>
-        <div className="table-container">
+      <Card label="Per-arm technical summary">
+        <div className="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Taxonomy Coverage</th>
-                <th>Policy Legality</th>
-                <th>Refused Unrecoverable Chases</th>
-                <th>Active Recoveries Routed</th>
-                <th>Unmapped Gateway Anomalies</th>
+                <th scope="col">Metric</th>
+                {ARMS.map((a) => (
+                  <th key={a} className="num">{ARM_LABELS[a]}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><strong style={{ color: 'var(--accent-emerald)' }}>99.0%</strong> (396/400)</td>
-                <td><strong style={{ color: 'var(--accent-emerald)' }}>100.0%</strong></td>
-                <td><strong style={{ color: 'var(--accent-amber)' }}>30 cases</strong> (7.5%)</td>
-                <td><strong>366 cases</strong> (91.5%)</td>
-                <td><code>suspected_fraud_velocity_limit</code> (flagged)</td>
-              </tr>
+              {benchmark.technical.map((row) => (
+                <tr key={row.metric}>
+                  <th scope="row">{row.metric}</th>
+                  {ARMS.map((a) => (
+                    <td key={a} className="num">{row.arms[a]?.text ?? '—'}</td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
+      </Card>
+
+      <div className="grid-2">
+        <Card label="Decoupled dunning ladder">
+          <p className="muted" style={{ fontSize: '0.9rem' }}>
+            Standard ladders couple customer contact to backend auto-debits, so deferring the retry to payday
+            also delays the message 12–18 days and intent decays. Decoupling them — Day-1 digital nudge, Day-28
+            auto-debit — captures both fresh intent and peak liquidity: +2.37pp ± 1.13pp value, +2.91pp ± 0.89pp
+            cases, −71.3 futile retries.
+          </p>
+        </Card>
+        <Card label="Voice intercept — real economics, honest variance">
+          <p className="muted" style={{ fontSize: '0.9rem' }}>
+            5.8 calls per batch at ₹5.00 each recover a net{' '}
+            {benchmark.paired_deltas.find((d) => d.metric.includes('Net Value Lift'))?.text ?? '₹16,632 ± ₹9,212'}.
+            The wide interval is real — the target accounts (≥ ₹5,000) are heavy-tailed and n is small. It stays
+            accretive down to 0.055% conversion.
+          </p>
+        </Card>
       </div>
     </div>
   );

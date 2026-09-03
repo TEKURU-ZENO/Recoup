@@ -41,8 +41,9 @@ Churn fatigue penalty: 1.5% voluntary churn hazard × ₹3,000 LTV (₹45/excess
 | Net Recovered Capital | ₹166,580.26 ± ₹13,782.63 | ₹175,786.85 ± ₹16,386.03 | ₹185,561.49 ± ₹16,034.78 | ₹202,193.41 ± ₹20,625.45 |
 | Incremental Net Capital vs Bounded | ₹-9,206.59 ± ₹6,209.98 | ₹0.00 (Baseline) | ₹+9,774.63 ± ₹4,753.63 | ₹+26,406.55 ± ₹11,059.66 |
 | Incremental Channel Spend vs Bounded | ₹+37.39 ± ₹1.76 | ₹0.00 (Baseline) | ₹+1.59 ± ₹0.78 | ₹+30.59 ± ₹6.22 |
-| Return on Incremental Channel Spend | Negative (Higher cost, lower recovery) | Baseline | 6157.2x incremental | 863.3x incremental |
 | Wasted Spend on Unrecoverable Accounts | ₹8.12 ± ₹0.69 | ₹0.00 ± ₹0.00 | ₹0.00 ± ₹0.00 | ₹0.00 ± ₹0.00 |
+
+> The honest statement is the absolute pairing, not a ratio: a few rupees more of channel spend (SmartBounded) buys ~₹9.8k more net capital; ~₹30 more including voice (SmartBoundedVoice) buys ~₹26.4k more. No return-multiple is published — a ratio on a ~₹1.59 denominator is a vanity number.
 
 ## Per-Arm Technical Summary
 

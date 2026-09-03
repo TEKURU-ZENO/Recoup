@@ -1,4 +1,4 @@
-# AI Revenue Recovery Agent for Recurring Payments
+# Recoup — AI Revenue Recovery Agent for Recurring Payments
 
 Deterministic state engine, fenced LLM narrator, and 4-arm empirical benchmark comparison for recurring subscription recovery (Razorpay stack).
 
@@ -50,7 +50,17 @@ The case delta and value delta point in distinct, complementary directions:
 - **Voice Telephony (`SmartBounded → SmartBoundedVoice`)**: **+0.88pp Cases vs +3.91pp Value**. Voice acts exclusively on stalled accounts at the top of the book (>₹5,000, averaging ₹9,185 per recovered case).
 - **Synergy**: Decoupling drives volume at the long tail; voice drives value at the top. The two mechanisms are complementary, not redundant.
 
-### 4. Voice Arm: Absolute Economics, Selection Effect & Sensitivity
+### 4. Absolute Levels Are Optimistic; the Claim Is the Paired Deltas
+The simulator's absolute recovery levels — NaiveUnbounded ≈ 40.8% value / 41.2% cases,
+SmartBoundedVoice ≈ 48.8% / 46.1% — sit at the **optimistic end** of directional industry
+ranges (passive email ~15–25%, retries + branched dunning ~25–40%, omni-channel ~35–45%; see
+[`docs/assumptions.md`](docs/assumptions.md)). This is a property of the outcome model's base
+probabilities, **not** a validated match to a production cohort, and `NaiveUnbounded` is a
+strawman rather than a real omni-channel system. The claim this project makes is the set of
+**paired deltas between arms under common random numbers**, which cancel the absolute level.
+Production calibration is Phase 1 of the rollout plan below.
+
+### 5. Voice Arm: Absolute Economics, Selection Effect & Sensitivity
 - **Selection Effect & Variance**: Value Recovery Rate (+3.91pp) is driven by deliberate account targeting as much as conversion. Restricting voice to accounts $\ge$ ₹5,000 (averaging ₹9,185 per recovered case) produces a wider confidence interval on net recovery (₹16,632 ± ₹9,212) due to the heavy-tailed Pareto distribution across small-n batches (5.8 calls).
 - **Absolute Economics**: Across 20 seeds, 5.8 calls placed cost **₹29.00** in SIP telephony and recover **₹16,631.92 ± ₹9,212.37 in net capital**.
 - **Conversion Sensitivity & Break-Even**:
@@ -69,9 +79,11 @@ The case delta and value delta point in distinct, complementary directions:
 | Channel Delivery Spend (SMS/WA/Voice) | ₹70.54 ± ₹1.59 | ₹33.15 ± ₹1.49 | ₹34.74 ± ₹1.29 | ₹63.74 ± ₹5.88 |
 | Contact Churn Fatigue Cost (₹45/excess contact) | ₹1,863.00 ± ₹195.23 | ₹0.00 | ₹0.00 | ₹261.00 ± ₹54.49 |
 | **Net Recovered Capital** | ₹166,580 ± ₹13,783 | ₹175,787 ± ₹16,386 | ₹185,561 ± ₹16,035 | **₹202,193 ± ₹20,625** |
-| **Incremental Net Capital vs Bounded** | -₹9,207 ± ₹3,618 | ₹0.00 (Baseline) | **+₹9,775 ± ₹1,340** | **+₹26,407 ± ₹5,120** |
-| **Return on Incremental Channel Spend** | Negative | Baseline | **6,147.5x incremental** | **573.5x incremental** |
+| **Incremental Net Capital vs Bounded** | -₹9,207 ± ₹6,210 | ₹0.00 (Baseline) | **+₹9,775 ± ₹4,754** | **+₹26,407 ± ₹11,060** |
+| Incremental Channel Spend vs Bounded | +₹37.39 ± ₹1.76 | ₹0.00 (Baseline) | +₹1.59 ± ₹0.78 | +₹30.59 ± ₹6.22 |
 | Wasted Spend on Dead Accounts | ₹8.12 ± ₹0.69 | ₹0.00 | ₹0.00 | **₹0.00** |
+
+**The honest statement is the absolute pairing, not a ratio.** ₹1.59 more channel spend (SmartBounded) buys **+₹9,775 ± ₹4,754** net capital; ₹30.59 more including voice (SmartBoundedVoice) buys **+₹26,407 ± ₹11,060**. We do not publish a return multiple — a ratio on a ~₹1.59 denominator is a vanity number.
 
 *Cost Model*: Gateway retry fee = ₹0.00 (failed attempts not billed by Razorpay); Gateway MDR = 2.0% on successful recovery; SMS = ₹0.25; WhatsApp = ₹0.50; Voice call = ₹5.00; Churn fatigue = 1.5% hazard × ₹3,000 LTV on contacts >2 or on DND.
 
