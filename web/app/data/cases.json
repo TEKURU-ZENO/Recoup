@@ -15,8 +15,8 @@
       "is_dnd": false,
       "is_opted_out": false,
       "language_preference": "hinglish",
-      "created_at": "2026-09-03T20:31:09.561961Z",
-      "updated_at": "2026-09-03T20:31:09.561974Z",
+      "created_at": "2026-09-05T17:12:27.955918Z",
+      "updated_at": "2026-09-05T17:12:27.955935Z",
       "audit_record_count": 5
     },
     {
@@ -33,8 +33,8 @@
       "is_dnd": false,
       "is_opted_out": false,
       "language_preference": "hinglish",
-      "created_at": "2026-09-03T20:31:09.567491Z",
-      "updated_at": "2026-09-03T20:31:09.567493Z",
+      "created_at": "2026-09-05T17:12:27.957278Z",
+      "updated_at": "2026-09-05T17:12:27.957279Z",
       "audit_record_count": 5
     },
     {
@@ -51,8 +51,8 @@
       "is_dnd": false,
       "is_opted_out": false,
       "language_preference": "hinglish",
-      "created_at": "2026-09-03T20:31:09.568384Z",
-      "updated_at": "2026-09-03T20:31:09.568385Z",
+      "created_at": "2026-09-05T17:12:27.957902Z",
+      "updated_at": "2026-09-05T17:12:27.957903Z",
       "audit_record_count": 2
     },
     {
@@ -69,8 +69,8 @@
       "is_dnd": false,
       "is_opted_out": false,
       "language_preference": "hinglish",
-      "created_at": "2026-09-03T20:31:09.568540Z",
-      "updated_at": "2026-09-03T20:31:09.568541Z",
+      "created_at": "2026-09-05T17:12:27.958311Z",
+      "updated_at": "2026-09-05T17:12:27.958312Z",
       "audit_record_count": 5
     },
     {
@@ -87,8 +87,8 @@
       "is_dnd": true,
       "is_opted_out": false,
       "language_preference": "hinglish",
-      "created_at": "2026-09-03T20:31:09.569024Z",
-      "updated_at": "2026-09-03T20:31:09.569025Z",
+      "created_at": "2026-09-05T17:12:27.958868Z",
+      "updated_at": "2026-09-05T17:12:27.958869Z",
       "audit_record_count": 5
     },
     {
@@ -105,16 +105,16 @@
       "is_dnd": false,
       "is_opted_out": false,
       "language_preference": "hinglish",
-      "created_at": "2026-09-03T20:31:09.569495Z",
-      "updated_at": "2026-09-03T20:31:09.569495Z",
+      "created_at": "2026-09-05T17:12:27.959332Z",
+      "updated_at": "2026-09-05T17:12:27.959333Z",
       "audit_record_count": 5
     }
   ],
   "audits": {
     "case_001": [
       {
-        "audit_id": "aud_95c904761c91",
-        "timestamp_utc": "2026-09-03T20:31:09.562060Z",
+        "audit_id": "aud_831c93078b82",
+        "timestamp_utc": "2026-09-05T17:12:27.956040Z",
         "subscription_id": "sub_9f2a71c4",
         "actor": "RAZORPAY_WEBHOOK_HANDLER",
         "policy_version": "v2026.1.0",
@@ -128,11 +128,11 @@
         },
         "compliance_check": {},
         "previous_hash": "genesis",
-        "record_hash": "b197da038dce8a0b62541689d8ce778fe1ecaa63240fab435b875631ce017e4e"
+        "record_hash": "e7efe821b2ca6f095a6b47088de3af5788f398d7d2ca863039e6eed9cc149017"
       },
       {
-        "audit_id": "aud_9199152f90e3",
-        "timestamp_utc": "2026-09-03T20:31:09.565606Z",
+        "audit_id": "aud_086a0f860bb4",
+        "timestamp_utc": "2026-09-05T17:12:27.956517Z",
         "subscription_id": "sub_9f2a71c4",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -147,12 +147,12 @@
           "scheduled_at": "2026-04-01T09:30:00+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "b197da038dce8a0b62541689d8ce778fe1ecaa63240fab435b875631ce017e4e",
-        "record_hash": "7240796298eaa986bea65196b78617e772bc00e2e6547632453fb5f3839fbce4"
+        "previous_hash": "e7efe821b2ca6f095a6b47088de3af5788f398d7d2ca863039e6eed9cc149017",
+        "record_hash": "c2fab295431eb67545e2250839d980a8e4e205346bf4a0b2b75a4e57c47f3113"
       },
       {
-        "audit_id": "aud_3f1e98a43885",
-        "timestamp_utc": "2026-09-03T20:31:09.566227Z",
+        "audit_id": "aud_fa42531083d2",
+        "timestamp_utc": "2026-09-05T17:12:27.956717Z",
         "subscription_id": "sub_9f2a71c4",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -167,12 +167,12 @@
           "scheduled_at": "2026-04-02T04:00:00+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "7240796298eaa986bea65196b78617e772bc00e2e6547632453fb5f3839fbce4",
-        "record_hash": "632336678f0dbfa21119b9feba9c8321703f6c3443d39420f88993facb0bf82a"
+        "previous_hash": "c2fab295431eb67545e2250839d980a8e4e205346bf4a0b2b75a4e57c47f3113",
+        "record_hash": "056adfaead474f8af6be094e22c0f3ac806a8617cac231281ee99868eaa1740b"
       },
       {
-        "audit_id": "aud_8093a80ed3ff",
-        "timestamp_utc": "2026-09-03T20:31:09.566831Z",
+        "audit_id": "aud_b70293811471",
+        "timestamp_utc": "2026-09-05T17:12:27.956836Z",
         "subscription_id": "sub_9f2a71c4",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -187,12 +187,12 @@
           "scheduled_at": "2026-04-03T04:00:00+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "632336678f0dbfa21119b9feba9c8321703f6c3443d39420f88993facb0bf82a",
-        "record_hash": "b58e4b543d8c49f31771e8b61bcdee0a647ee62a3a3c64faf887398d335b9695"
+        "previous_hash": "056adfaead474f8af6be094e22c0f3ac806a8617cac231281ee99868eaa1740b",
+        "record_hash": "d0c306828ce74bdabd418d5b0c767974b4a64f74a9e9cda1af1c5523d283d64b"
       },
       {
-        "audit_id": "aud_8c005a08a310",
-        "timestamp_utc": "2026-09-03T20:31:09.567028Z",
+        "audit_id": "aud_84668df8cf81",
+        "timestamp_utc": "2026-09-05T17:12:27.956924Z",
         "subscription_id": "sub_9f2a71c4",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -207,14 +207,14 @@
           "scheduled_at": "2026-04-04T04:00:00+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "b58e4b543d8c49f31771e8b61bcdee0a647ee62a3a3c64faf887398d335b9695",
-        "record_hash": "b50062032a7bff5436c72600abba28bdc1166676ae30f3d87d88c827b864268a"
+        "previous_hash": "d0c306828ce74bdabd418d5b0c767974b4a64f74a9e9cda1af1c5523d283d64b",
+        "record_hash": "1d2b5a5fdd45bd7e480d0d3d77c67063fc537ca5352ca160f1a5086cd79ce197"
       }
     ],
     "case_002": [
       {
-        "audit_id": "aud_5263f77b6fa5",
-        "timestamp_utc": "2026-09-03T20:31:09.567521Z",
+        "audit_id": "aud_dac51f3f3870",
+        "timestamp_utc": "2026-09-05T17:12:27.957297Z",
         "subscription_id": "sub_3b8e40d9",
         "actor": "RAZORPAY_WEBHOOK_HANDLER",
         "policy_version": "v2026.1.0",
@@ -228,11 +228,11 @@
         },
         "compliance_check": {},
         "previous_hash": "genesis",
-        "record_hash": "7fa080c7a633b675133cdf75297702fc68d4490c7d2583b6b1cd33ddfb6a2c74"
+        "record_hash": "e009a8fe971640f69e9b9aaebcc54018845655bce29afbd21e3acf3dd13780ab"
       },
       {
-        "audit_id": "aud_37efd0fd42e6",
-        "timestamp_utc": "2026-09-03T20:31:09.567645Z",
+        "audit_id": "aud_18b309c6b05e",
+        "timestamp_utc": "2026-09-05T17:12:27.957375Z",
         "subscription_id": "sub_3b8e40d9",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -244,15 +244,15 @@
         "execution_payload": {
           "action_type": "method_switch_link",
           "channel": "whatsapp",
-          "scheduled_at": "2026-09-05T20:31:09.567491+00:00"
+          "scheduled_at": "2026-09-07T17:12:27.957278+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "7fa080c7a633b675133cdf75297702fc68d4490c7d2583b6b1cd33ddfb6a2c74",
-        "record_hash": "4fa4c8365f2d7c48441374984ff3b6bfdfcca438d73998bd7dee3124a36896b4"
+        "previous_hash": "e009a8fe971640f69e9b9aaebcc54018845655bce29afbd21e3acf3dd13780ab",
+        "record_hash": "a3a6d69e4b35133383339b28e79e09539698886987b156baccc5555762f5270b"
       },
       {
-        "audit_id": "aud_1161eac349b8",
-        "timestamp_utc": "2026-09-03T20:31:09.567793Z",
+        "audit_id": "aud_562a3e35f5e4",
+        "timestamp_utc": "2026-09-05T17:12:27.957479Z",
         "subscription_id": "sub_3b8e40d9",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -264,15 +264,15 @@
         "execution_payload": {
           "action_type": "method_switch_link",
           "channel": "whatsapp",
-          "scheduled_at": "2026-09-07T20:31:09.567491+00:00"
+          "scheduled_at": "2026-09-09T17:12:27.957278+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "4fa4c8365f2d7c48441374984ff3b6bfdfcca438d73998bd7dee3124a36896b4",
-        "record_hash": "d5f0df5901d844482b625c2d07c3a270b9839299d099daea675471b64dd5b548"
+        "previous_hash": "a3a6d69e4b35133383339b28e79e09539698886987b156baccc5555762f5270b",
+        "record_hash": "2c49625f7d17f4b9fdb7444aba539e077afd07663bd36d957e56261cffbefb57"
       },
       {
-        "audit_id": "aud_77124d97d333",
-        "timestamp_utc": "2026-09-03T20:31:09.567955Z",
+        "audit_id": "aud_0d39155cb04c",
+        "timestamp_utc": "2026-09-05T17:12:27.957610Z",
         "subscription_id": "sub_3b8e40d9",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -284,15 +284,15 @@
         "execution_payload": {
           "action_type": "voice_call",
           "channel": "voice",
-          "scheduled_at": "2026-09-09T20:31:09.567491+00:00"
+          "scheduled_at": "2026-09-11T17:12:27.957278+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "d5f0df5901d844482b625c2d07c3a270b9839299d099daea675471b64dd5b548",
-        "record_hash": "d6e1e35c1c4337032fd7f7a45da922c84261e6c8af877e0a877ff7b783b9760e"
+        "previous_hash": "2c49625f7d17f4b9fdb7444aba539e077afd07663bd36d957e56261cffbefb57",
+        "record_hash": "bd97a9f62ffb09bdf47281d21077f40c5c81e9b6944c20b780ffc08180d8797c"
       },
       {
-        "audit_id": "aud_e138fa201207",
-        "timestamp_utc": "2026-09-03T20:31:09.568115Z",
+        "audit_id": "aud_da110665517b",
+        "timestamp_utc": "2026-09-05T17:12:27.957680Z",
         "subscription_id": "sub_3b8e40d9",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -304,14 +304,14 @@
           "status": "halted"
         },
         "compliance_check": {},
-        "previous_hash": "d6e1e35c1c4337032fd7f7a45da922c84261e6c8af877e0a877ff7b783b9760e",
-        "record_hash": "b7af3143c0d323c7ca09779e1654314d0c2f38392ebad5e2876926e82fb0ce19"
+        "previous_hash": "bd97a9f62ffb09bdf47281d21077f40c5c81e9b6944c20b780ffc08180d8797c",
+        "record_hash": "e75e1c6745e7b2f70b292757a56ef8afca95c7b8e6aa8662ad027847484d8640"
       }
     ],
     "case_003": [
       {
-        "audit_id": "aud_520aa03c7aee",
-        "timestamp_utc": "2026-09-03T20:31:09.568401Z",
+        "audit_id": "aud_5659a8aa5179",
+        "timestamp_utc": "2026-09-05T17:12:27.957917Z",
         "subscription_id": "sub_c14d92f7",
         "actor": "RAZORPAY_WEBHOOK_HANDLER",
         "policy_version": "v2026.1.0",
@@ -325,11 +325,11 @@
         },
         "compliance_check": {},
         "previous_hash": "genesis",
-        "record_hash": "5f783e966f91347a5fc159872b36b866457d3ffbd16b379334494c987cb2b802"
+        "record_hash": "f8c2ad0ca244b05f3b196d8e6685a319483242baeea0d6c3da1f67dd6f762002"
       },
       {
-        "audit_id": "aud_64262f73daf6",
-        "timestamp_utc": "2026-09-03T20:31:09.568441Z",
+        "audit_id": "aud_e8a6af64c04a",
+        "timestamp_utc": "2026-09-05T17:12:27.958109Z",
         "subscription_id": "sub_c14d92f7",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -341,14 +341,14 @@
           "status": "halted"
         },
         "compliance_check": {},
-        "previous_hash": "5f783e966f91347a5fc159872b36b866457d3ffbd16b379334494c987cb2b802",
-        "record_hash": "dd1c2ba783cbd307e231e1b1ed000607665f75c185615ac3778a5c5dcf638d53"
+        "previous_hash": "f8c2ad0ca244b05f3b196d8e6685a319483242baeea0d6c3da1f67dd6f762002",
+        "record_hash": "8b1eda3b201e5068d40a0bd1006cfa9d7979f13f103b2a490fc870455170fb48"
       }
     ],
     "case_004": [
       {
-        "audit_id": "aud_854928191128",
-        "timestamp_utc": "2026-09-03T20:31:09.568552Z",
+        "audit_id": "aud_5aca2bb60698",
+        "timestamp_utc": "2026-09-05T17:12:27.958329Z",
         "subscription_id": "sub_7a5f1e30",
         "actor": "RAZORPAY_WEBHOOK_HANDLER",
         "policy_version": "v2026.1.0",
@@ -362,11 +362,11 @@
         },
         "compliance_check": {},
         "previous_hash": "genesis",
-        "record_hash": "dac303a773d3bdb949f38d1206f1abf4ba6a704b92c57abfa7e76312d89721e4"
+        "record_hash": "3b92aa79871cadf1c7a048a3e05b8f5f43f60376da4a03b4684d51ed83fbc560"
       },
       {
-        "audit_id": "aud_ee28cd4f847b",
-        "timestamp_utc": "2026-09-03T20:31:09.568618Z",
+        "audit_id": "aud_2b43df14541d",
+        "timestamp_utc": "2026-09-05T17:12:27.958415Z",
         "subscription_id": "sub_7a5f1e30",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -378,15 +378,15 @@
         "execution_payload": {
           "action_type": "friction_reduction_link",
           "channel": "whatsapp",
-          "scheduled_at": "2026-09-05T20:31:09.568540+00:00"
+          "scheduled_at": "2026-09-07T17:12:27.958311+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "dac303a773d3bdb949f38d1206f1abf4ba6a704b92c57abfa7e76312d89721e4",
-        "record_hash": "4cdf7e84a4c1544f57943498e867147e7ef8082c0bed79d24e8e27640c280cb6"
+        "previous_hash": "3b92aa79871cadf1c7a048a3e05b8f5f43f60376da4a03b4684d51ed83fbc560",
+        "record_hash": "7ca8fc541fec2b3de13134a1b6443b282b6c527419ee233ed5714e1c0c1da10e"
       },
       {
-        "audit_id": "aud_2bf61ba6c1a9",
-        "timestamp_utc": "2026-09-03T20:31:09.568702Z",
+        "audit_id": "aud_13703c18850e",
+        "timestamp_utc": "2026-09-05T17:12:27.958515Z",
         "subscription_id": "sub_7a5f1e30",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -398,15 +398,15 @@
         "execution_payload": {
           "action_type": "friction_reduction_link",
           "channel": "whatsapp",
-          "scheduled_at": "2026-09-07T20:31:09.568540+00:00"
+          "scheduled_at": "2026-09-09T17:12:27.958311+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "4cdf7e84a4c1544f57943498e867147e7ef8082c0bed79d24e8e27640c280cb6",
-        "record_hash": "0fc3fd5429bc53c44425e3bd402a8dbe0c0ce6793b32d727749788a9808f5933"
+        "previous_hash": "7ca8fc541fec2b3de13134a1b6443b282b6c527419ee233ed5714e1c0c1da10e",
+        "record_hash": "f11e995dc914b5700b0c3fc81422b736202cb4d0a550ba31649464c77c5893fa"
       },
       {
-        "audit_id": "aud_9ca3863eabdf",
-        "timestamp_utc": "2026-09-03T20:31:09.568779Z",
+        "audit_id": "aud_a171a178360f",
+        "timestamp_utc": "2026-09-05T17:12:27.958600Z",
         "subscription_id": "sub_7a5f1e30",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -418,15 +418,15 @@
         "execution_payload": {
           "action_type": "voice_call",
           "channel": "voice",
-          "scheduled_at": "2026-09-09T20:31:09.568540+00:00"
+          "scheduled_at": "2026-09-11T17:12:27.958311+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "0fc3fd5429bc53c44425e3bd402a8dbe0c0ce6793b32d727749788a9808f5933",
-        "record_hash": "01aeb37fcf0c14ddc1b6aea4ff1303bec662ea51885a422ae8244fcfb367a460"
+        "previous_hash": "f11e995dc914b5700b0c3fc81422b736202cb4d0a550ba31649464c77c5893fa",
+        "record_hash": "f664b44e92b8b454d88cc880dcf8622d217eaed67b88acb2ef3796e9df800a28"
       },
       {
-        "audit_id": "aud_be1b53b31526",
-        "timestamp_utc": "2026-09-03T20:31:09.568831Z",
+        "audit_id": "aud_7c0ca28babe0",
+        "timestamp_utc": "2026-09-05T17:12:27.958657Z",
         "subscription_id": "sub_7a5f1e30",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -438,14 +438,14 @@
           "status": "halted"
         },
         "compliance_check": {},
-        "previous_hash": "01aeb37fcf0c14ddc1b6aea4ff1303bec662ea51885a422ae8244fcfb367a460",
-        "record_hash": "18d32c515bc3e8bd52c6c02e7be410b52dbd9439865ad1bddf2e38592096f782"
+        "previous_hash": "f664b44e92b8b454d88cc880dcf8622d217eaed67b88acb2ef3796e9df800a28",
+        "record_hash": "9194b008806c829d126f449fed92aac26a2d8f59752c94101bbd424c88ce85a6"
       }
     ],
     "case_005": [
       {
-        "audit_id": "aud_31a1c0b130ce",
-        "timestamp_utc": "2026-09-03T20:31:09.569036Z",
+        "audit_id": "aud_cf2ad7fe6e57",
+        "timestamp_utc": "2026-09-05T17:12:27.958882Z",
         "subscription_id": "sub_e2c6b038",
         "actor": "RAZORPAY_WEBHOOK_HANDLER",
         "policy_version": "v2026.1.0",
@@ -459,11 +459,11 @@
         },
         "compliance_check": {},
         "previous_hash": "genesis",
-        "record_hash": "d5904be2b16b565036282bf98fe4d80dd5f03008adaf77514f60d8436f2cf73f"
+        "record_hash": "21a05dbb5c538d6ac607bf5094d11c7713bde3a0062b3e94afba4ff17845ca4f"
       },
       {
-        "audit_id": "aud_4765cd814c05",
-        "timestamp_utc": "2026-09-03T20:31:09.569100Z",
+        "audit_id": "aud_359602ded3c6",
+        "timestamp_utc": "2026-09-05T17:12:27.958947Z",
         "subscription_id": "sub_e2c6b038",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -478,12 +478,12 @@
           "scheduled_at": "2026-04-02T09:30:00+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "d5904be2b16b565036282bf98fe4d80dd5f03008adaf77514f60d8436f2cf73f",
-        "record_hash": "92849c322200c4269e9f6ce90c70262654680c4165105b4812645a2214e5101c"
+        "previous_hash": "21a05dbb5c538d6ac607bf5094d11c7713bde3a0062b3e94afba4ff17845ca4f",
+        "record_hash": "895a323193b1275f811d3273d534e12bacb030087d7a399105bce4f1a996c32e"
       },
       {
-        "audit_id": "aud_76e2f96a9a40",
-        "timestamp_utc": "2026-09-03T20:31:09.569179Z",
+        "audit_id": "aud_a0aae3b2eb98",
+        "timestamp_utc": "2026-09-05T17:12:27.959014Z",
         "subscription_id": "sub_e2c6b038",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -498,12 +498,12 @@
           "scheduled_at": "2026-04-03T10:30:00+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "92849c322200c4269e9f6ce90c70262654680c4165105b4812645a2214e5101c",
-        "record_hash": "7874bfe5c5862bc034226ca581e76477d73f55c610ec9e0b6ddabfcfc04d48a8"
+        "previous_hash": "895a323193b1275f811d3273d534e12bacb030087d7a399105bce4f1a996c32e",
+        "record_hash": "e82e970baac966884d2848de4cbca7394cedfc43a88b324d3578587902a6d2da"
       },
       {
-        "audit_id": "aud_c219355cdda6",
-        "timestamp_utc": "2026-09-03T20:31:09.569241Z",
+        "audit_id": "aud_c1e081f653f5",
+        "timestamp_utc": "2026-09-05T17:12:27.959076Z",
         "subscription_id": "sub_e2c6b038",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -518,12 +518,12 @@
           "scheduled_at": "2026-04-04T11:30:00+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "7874bfe5c5862bc034226ca581e76477d73f55c610ec9e0b6ddabfcfc04d48a8",
-        "record_hash": "e9ae5f0f6dbd963db5b154db2598178fd1e42caa765062b67ee10c7bbdd222f6"
+        "previous_hash": "e82e970baac966884d2848de4cbca7394cedfc43a88b324d3578587902a6d2da",
+        "record_hash": "55fed9cd2e858ca3151254bc1cb7f4825d6f913b943398160a569a9c04c430c3"
       },
       {
-        "audit_id": "aud_f5c9361589d9",
-        "timestamp_utc": "2026-09-03T20:31:09.569302Z",
+        "audit_id": "aud_865f5853bcdc",
+        "timestamp_utc": "2026-09-05T17:12:27.959135Z",
         "subscription_id": "sub_e2c6b038",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -535,14 +535,14 @@
           "status": "active"
         },
         "compliance_check": {},
-        "previous_hash": "e9ae5f0f6dbd963db5b154db2598178fd1e42caa765062b67ee10c7bbdd222f6",
-        "record_hash": "73f1dddf4ff1d867609812b71de9be61386a8f7d9dce3c8d85d0bbd12cbac47d"
+        "previous_hash": "55fed9cd2e858ca3151254bc1cb7f4825d6f913b943398160a569a9c04c430c3",
+        "record_hash": "ebf77bba4ebe1c4e788f59ce8e1e89b1aeaaec8adecc711594d9d31f32c1aad9"
       }
     ],
     "case_006": [
       {
-        "audit_id": "aud_6d757cd9b0f1",
-        "timestamp_utc": "2026-09-03T20:31:09.569506Z",
+        "audit_id": "aud_19fde77b0562",
+        "timestamp_utc": "2026-09-05T17:12:27.959345Z",
         "subscription_id": "sub_16bd7a52",
         "actor": "RAZORPAY_WEBHOOK_HANDLER",
         "policy_version": "v2026.1.0",
@@ -556,11 +556,11 @@
         },
         "compliance_check": {},
         "previous_hash": "genesis",
-        "record_hash": "1db17e9315717a181cb44e493de99448472dbf8da6338f0fc3d8dd3e1f8624de"
+        "record_hash": "5c46ccc56b3413ebcb69e94a4bb39c694136428a84b3088ac61300129f2ac722"
       },
       {
-        "audit_id": "aud_0a5ce7b8dda4",
-        "timestamp_utc": "2026-09-03T20:31:09.569558Z",
+        "audit_id": "aud_edae93a2fea9",
+        "timestamp_utc": "2026-09-05T17:12:27.959398Z",
         "subscription_id": "sub_16bd7a52",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -575,12 +575,12 @@
           "scheduled_at": "2026-04-01T13:30:00+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "1db17e9315717a181cb44e493de99448472dbf8da6338f0fc3d8dd3e1f8624de",
-        "record_hash": "37b51b5ca068550b6b549bad96f28568fdfe2f14d51fa10bbd7c94e998b5b478"
+        "previous_hash": "5c46ccc56b3413ebcb69e94a4bb39c694136428a84b3088ac61300129f2ac722",
+        "record_hash": "e53bb0ab04f63fe7c717cc64a786a2429c4d75ad58de8c785c8902b7a5f7654f"
       },
       {
-        "audit_id": "aud_b81286f94b1f",
-        "timestamp_utc": "2026-09-03T20:31:09.569618Z",
+        "audit_id": "aud_a321a7b4ffca",
+        "timestamp_utc": "2026-09-05T17:12:27.959458Z",
         "subscription_id": "sub_16bd7a52",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -595,12 +595,12 @@
           "scheduled_at": "2026-04-01T18:30:00+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "37b51b5ca068550b6b549bad96f28568fdfe2f14d51fa10bbd7c94e998b5b478",
-        "record_hash": "7e07b287a9890f35ea674d59d9efd6269745334f43cd5da62a6166cc2c6a6117"
+        "previous_hash": "e53bb0ab04f63fe7c717cc64a786a2429c4d75ad58de8c785c8902b7a5f7654f",
+        "record_hash": "1d7ef1f8b22baa43d3fa7f22f21f4acb64b1d764c0ac0e2ea4271a00d518d7d8"
       },
       {
-        "audit_id": "aud_9a502aeb862c",
-        "timestamp_utc": "2026-09-03T20:31:09.569675Z",
+        "audit_id": "aud_9ba4ea46f1e6",
+        "timestamp_utc": "2026-09-05T17:12:27.959516Z",
         "subscription_id": "sub_16bd7a52",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -615,12 +615,12 @@
           "scheduled_at": "2026-04-01T23:30:00+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "7e07b287a9890f35ea674d59d9efd6269745334f43cd5da62a6166cc2c6a6117",
-        "record_hash": "14d7f3c96ac751c9596957aa34cc290257f818103526bca1d8b6abd35d783d85"
+        "previous_hash": "1d7ef1f8b22baa43d3fa7f22f21f4acb64b1d764c0ac0e2ea4271a00d518d7d8",
+        "record_hash": "0728f5a46a8ebe309af523b88d913be46e7e5e23e2211a5a26985f239712ff3d"
       },
       {
-        "audit_id": "aud_be41863c262f",
-        "timestamp_utc": "2026-09-03T20:31:09.569746Z",
+        "audit_id": "aud_0bc7ad003c1b",
+        "timestamp_utc": "2026-09-05T17:12:27.959652Z",
         "subscription_id": "sub_16bd7a52",
         "actor": "AGENT_POLICY_ENGINE",
         "policy_version": "v2026.1.0",
@@ -635,8 +635,8 @@
           "scheduled_at": "2026-04-02T04:00:00+00:00"
         },
         "compliance_check": {},
-        "previous_hash": "14d7f3c96ac751c9596957aa34cc290257f818103526bca1d8b6abd35d783d85",
-        "record_hash": "c9148c2af7e6cae8efadc1b44c99d6d06f499c88867be48af757a8dd2f5a41e1"
+        "previous_hash": "0728f5a46a8ebe309af523b88d913be46e7e5e23e2211a5a26985f239712ff3d",
+        "record_hash": "1326e7b25b634765fbf856cb793c89f088493e7a1c2908b5c1768379d2eb189d"
       }
     ]
   }

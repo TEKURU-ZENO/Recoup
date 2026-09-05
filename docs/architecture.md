@@ -66,17 +66,31 @@ src/rra/
 │
 ├── gateway/         # Razorpay integration
 │   ├── razorpay_client.py  # Test-mode API client
-│   └── webhooks.py         # HMAC-SHA256 signature verification, idempotency
+│   └── webhooks.py         # HMAC-SHA256 verify, idempotency; runs the policy engine on ingest
 │
 ├── api/             # FastAPI application
-│   └── main.py      # /webhooks/razorpay, /cases, /cases/{id}/audit, /benchmark
+│   └── main.py      # /health, /webhooks/razorpay, /cases, /cases/{id}/audit, /benchmark
 │
 └── bench/           # Benchmark harness
-    ├── arms.py      # NaiveUnbounded, NaiveBounded, SmartBounded
+    ├── arms.py      # NaiveUnbounded, NaiveBounded, SmartBounded, SmartBoundedVoice
     ├── runner.py    # 30-day virtual simulation with CRN
     ├── metrics.py   # compute_metrics with declined_chases predicate
     └── report.py    # Generates docs/benchmark-report.md
 ```
+
+## Dashboard — `web/` (Next.js 14, App Router)
+
+A read-first narrative UI: **Result** (`/`) → **Why it works** (`/benchmark`) → **What we refused**
+(`/refused`) → **Portfolio** (`/cases`), with `/case/[id]` and `/audit/[id]` drill-downs.
+
+- Every figure is imported from `web/app/data/*.json`, written by `scripts/export_web_data.py`
+  from `docs/benchmark-report.md` and `docs/shadow-decisions.jsonl`. **No hand-typed statistics.**
+- Pages prefer the live API on `:8000` and fall back to committed fixtures, but the fallback is
+  always surfaced (`lib/api.ts` `fetchWithFallback`, header live/fixture indicator).
+- `app/api/simulate-webhook/route.ts` signs a real `payment.failed` event server-side and POSTs it
+  to the API — the live-webhook demo runs the same verification + policy path as production.
+- Confidence intervals are drawn, not just printed: `components/IntervalPlot.tsx` renders a dot +
+  95% CI whisker against a zero line, coloured by whether the interval clears zero.
 
 ## FSM State Diagram
 
@@ -99,17 +113,25 @@ stateDiagram-v2
 
 ## Benchmark Design
 
-Three arms:
-1. **NaiveUnbounded** — fixed 24/48/72h retries, no guards (industry strawman)
-2. **NaiveBounded** — same fixed timing, with full guards
-3. **SmartBounded** — contextual scheduling, with full guards
+Four arms, each adding exactly one design decision to the previous:
 
-NaiveBounded vs SmartBounded isolates the scheduling contribution.  
-NaiveUnbounded vs NaiveBounded measures the cost of bounded execution.
+1. **NaiveUnbounded** — fixed 24/48/72h retries, no guards, no links (industry strawman)
+2. **NaiveBounded** — same fixed timing, with the full guard set + digital links
+3. **SmartBounded** — adds the decoupled dunning ladder (Day-1 nudge, payday-aligned auto-debit)
+4. **SmartBoundedVoice** — adds a LiveKit voice intercept on stalled accounts > ₹5,000
 
-Common random numbers keyed on `(seed, case_id, action_type, ordinal_within_type)` ensure arms differ only in policy, not luck.
+Each adjacent pair isolates one contribution:
 
-30-day simulation horizon.
+| Pair | Isolates |
+|---|---|
+| NaiveUnbounded → NaiveBounded | cost of bounded execution / channel substitution |
+| NaiveBounded → SmartBounded | the decoupled dunning ladder (scheduling) |
+| SmartBounded → SmartBoundedVoice | the targeted voice intercept |
+
+Common random numbers keyed on `(seed, case_id, action_type, ordinal_within_type)` ensure arms
+differ only in policy, not luck. 20 seeds × 215 cases, 30-day simulation horizon.
+`make bench` reproduces `docs/benchmark-report.md` (which is never hand-edited) and refreshes the
+dashboard's JSON fixtures.
 
 ## Key Invariants
 

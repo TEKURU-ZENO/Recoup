@@ -89,7 +89,9 @@ export default function CaseTimelinePage({ params }: { params: { id: string } })
           </div>
         )}
         <div style={{ marginTop: '1.2rem' }}>
-          <Button href={`/audit/${c.case_id}`} variant="quiet">Open full audit ledger &amp; verify chain</Button>
+          {/* The audit ledger is keyed by subscription_id, not case_id — use that so the
+              lookup resolves for both live cases and the offline-engine fixture. */}
+          <Button href={`/audit/${c.subscription_id}`} variant="quiet">Open full audit ledger &amp; verify chain</Button>
         </div>
       </Card>
     </div>

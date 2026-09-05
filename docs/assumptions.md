@@ -12,10 +12,10 @@ None of these are calibrated against a production cohort. The benchmark's claim 
 > far more than unexplained precision.
 
 > **Calibration notice**: The absolute recovery rates produced by this simulator
-> (≈41–48% on the realistic 28-day billing cycle portfolio) are **uncalibrated against production data**.
-> Industry dunning recovery on failed recurring payments typically runs in the 15–30% range.
-> The base probabilities below are set to produce differentiated behavior across
-> failure codes, not to match a specific production cohort.
+> (≈41–49% on the realistic 28-day billing cycle portfolio) are **uncalibrated against production data**
+> and sit at the optimistic end of the directional ranges in the next section. The base
+> probabilities below are set to produce differentiated behaviour across failure codes,
+> not to match a specific production cohort.
 >
 > The meaningful quantities in the benchmark are the **paired deltas between arms
 > under identical CRN draws**, which isolate the causal contribution of each

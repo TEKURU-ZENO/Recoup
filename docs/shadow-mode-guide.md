@@ -2,7 +2,7 @@
 
 ## Purpose and Evidentiary Scope
 
-Shadow mode connects the Revenue Recovery Agent to a live or exported merchant webhook feed (`payment.failed`) to validate the agent against real production data with **zero side effects**:
+Shadow mode connects the Recovery Agent to a live or exported merchant webhook feed (`payment.failed`) to validate the agent against real production data with **zero side effects**:
 - **No money movement**: No debit retries or payment captures are executed.
 - **No customer communications**: No SMS, WhatsApp messages, or voice calls are placed.
 - **Authoritative audit log**: Every decision is evaluated against compliance guardrails and recorded in `docs/shadow-decisions.jsonl`.
@@ -13,7 +13,7 @@ Shadow mode connects the Revenue Recovery Agent to a live or exported merchant w
 > 3. **Refusal precision**: Quantifies how many unrecoverable cases (revocations, invalid mandates) the agent would have refused to pursue, saving wasted carrier spend.
 >
 > **What shadow mode does NOT prove**:
-> Shadow mode does **not** validate causal revenue lift against production outcomes, because the live merchant was running their own disparate retry schedule. Comparing shadow decisions to unrelated production outcomes is correlational, not causal. Causal lift is rigorously established in the 3-arm and 4-arm Common Random Number (CRN) simulation benchmarks.
+> Shadow mode does **not** validate causal revenue lift against production outcomes: any live merchant runs their own disparate retry schedule, so comparing shadow decisions to unrelated production outcomes is correlational, not causal. Causal lift is established in the 4-arm Common Random Number (CRN) simulation benchmark (`docs/benchmark-report.md`).
 
 ---
 
@@ -29,7 +29,7 @@ Running `python scripts/run_shadow.py` on this cohort yields:
 | **Taxonomy Coverage** | **99.0%** (396 / 400) | 99% of gateway errors classified into root cause categories |
 | **Policy Legality** | **100.0%** | Zero proposed actions violate TRAI contact hours or DND registry |
 | **Refused Chases** | **30 cases** (7.5%) | Mandate revocations correctly halted at Level 0 |
-| **Active Recoveries Routed** | **366 cases** (91.5%) | 278 backend retries, 53 method switch links, 35 friction links |
+| **Active Recoveries Routed** | **366 cases** (91.5%) | 175 SMS nudges, 103 backend retries, 53 method-switch links, 35 friction-reduction links |
 | **Unmapped Edge Cases** | **1.0%** (4 / 400) | `suspected_fraud_velocity_limit` (flagged for review) |
 
 ---
@@ -44,11 +44,11 @@ Merchant webhook exports must provide standard Razorpay `payment.failed` event o
   "payload": {
     "payment": {
       "entity": {
-        "id": "pay_live_001234",
+        "id": "pay_synth_001234",
         "amount": 249900,
         "currency": "INR",
         "method": "upi",
-        "subscription_id": "sub_live_001234",
+        "subscription_id": "sub_synth_001234",
         "error_code": "BAD_REQUEST_ERROR",
         "error_source": "customer",
         "error_step": "payment_authentication",

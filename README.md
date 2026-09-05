@@ -4,7 +4,15 @@ Deterministic state engine, fenced LLM narrator, and 4-arm empirical benchmark c
 
 > *Simulated outcomes under stated assumptions. Simulator, seeds, and assumption sources are in the repo; `make bench` reproduces every figure below.*
 
-> **Calibration notice**: Absolute recovery levels (≈52–57%) are uncalibrated against production cohorts (where industry dunning rates on failed recurring payments typically run 15–30%). The scientifically meaningful quantities are the *paired deltas between arms under identical Common Random Number (CRN) draws*, which cancel shared variance to isolate causal mechanisms.
+> **Calibration notice**: The simulator's absolute recovery levels — NaiveUnbounded ≈ 40.8% value / 41.2% cases, SmartBoundedVoice ≈ 48.8% / 46.1% — sit at the **optimistic end** of directional industry ranges (passive email ~15–25%, retries + branched dunning ~25–40%, omni-channel ~35–45%; see [`docs/assumptions.md`](docs/assumptions.md)). They are a property of the outcome model's base probabilities, **not** a validated match to a production cohort. The scientifically meaningful quantities are the *paired deltas between arms under identical Common Random Number (CRN) draws*, which cancel shared variance to isolate causal mechanisms. Production calibration is Phase 1 of the rollout plan below.
+
+---
+
+## Demo
+
+- **▶ Walkthrough video:** _<add link before submitting>_
+- **Dashboard (local):** `cd web && npm install && npm run dev` → <http://localhost:3000> — narrative walk of the result, the mechanism, the refusal ledger, and a live signed-webhook trigger. Optionally run the API too (`uvicorn rra.api.main:app --reload`) for live case data.
+- **CLI walkthrough:** `make demo` — end-to-end ingestion → taxonomy → audit chain → policy decision → shadow validation → benchmark sample.
 
 ---
 
@@ -12,7 +20,7 @@ Deterministic state engine, fenced LLM narrator, and 4-arm empirical benchmark c
 
 Out of 215 cases per batch, bounded execution **declined to chase 24.3 ± 2.0 cases** — mandate revocations, input-validation failures, and DND-registered accounts. Each declined chase is a case the agent examined, classified as structurally unrecoverable or consent-withdrawn, and refused to pursue.
 
-The unbounded strawman arm chased all of them indiscriminately: **0.0 declined chases, 243.2 ± 8.4 guard violations** (TRAI contact hours, 48h cooling-off, and DND violations on outbound SMS).
+The unbounded strawman arm chased all of them indiscriminately: **0.0 declined chases, 286.9 ± 8.2 guard violations** (TRAI contact hours, 48h cooling-off, and DND violations on outbound SMS) — every one a real regulatory breach the bounded arm never commits.
 
 ---
 
@@ -30,19 +38,25 @@ Evaluated across a realistic 28-day subscription billing cycle where payment fai
 
 ## Key Analytical Findings
 
-### 1. The Real Source of Lift: Channel Substitution, Not Retry Timing
-Disaggregating the lift between unbounded and bounded execution reveals that the gain comes from **channel substitution on structural errors**:
-- **`card_expired`**: **+10.4pp ± 4.9pp lift (Statistically established)**. Unbounded executes 3 futile backend retries ($P=0.00$), wasting retries on dead cards. Bounded guards prohibit retries and immediately dispatch a `method_switch_link` (926 links delivered across 20 seeds).
-- **`3ds_dropoff`**: **+2.1pp ± 5.8pp lift (Directional, straddles zero)**. Bounded routes directly to `friction_reduction_link` (667 links delivered), though the wide confidence interval means it is not statistically established.
-- **The constraints were the optimization**: Doing strictly less futile work forced the agent into higher-converting digital channels.
+> The lift from bounded to smart execution has two sources. They are presented largest-first
+> below — but the larger one (decoupled timing, **+2.37pp**) was found *after* a naive
+> payday-deferral heuristic measured a flat null. The finding is that the null was a design
+> flaw in the heuristic, not an absence of signal. Voice is a separate, top-of-book lever
+> (findings 3 and 5).
 
-### 2. Breaking the Scheduling Null: The Decoupled Dunning Ladder
+### 1. The Largest Lever: Breaking the Scheduling Null with a Decoupled Dunning Ladder
 Why did traditional payday deferrals produce a null?
 - **The Coupling Flaw**: Standard recovery ladders couple customer contact to backend auto-debits sequentially. Deferring the auto-debit to wait for payday delayed customer communications by 12–18 days, allowing fresh customer intent to decay exponentially ($\exp(-\lambda \times \Delta t)$ losing 45–60%).
 - **The Decoupled Architecture**: When `INSUFFICIENT_FUNDS` occurs mid-month, the agent *decouples* customer communication velocity from auto-debit clearing schedules:
   - **Day 1 ($t=0$)**: Immediately dispatches a digital nudge with hosted payment link, capturing fresh intent while the customer is engaged.
   - **Day 28 (Payday)**: Defers backend auto-debit retries to the upcoming salary clearing window when bank balances credit.
-- **The Result**: Converts customers via link if they can pay immediately, while preserving automated clearing for when liquidity peaks. This yields a statistically significant **+2.37pp ± 1.13pp Value Lift** and **+2.91pp ± 0.89pp Case Resolution Lift**, while **eliminating 71.3 futile retries per batch**.
+- **The Result**: Converts customers via link if they can pay immediately, while preserving automated clearing for when liquidity peaks. This yields a statistically significant **+2.37pp ± 1.13pp Value Lift** and **+2.91pp ± 0.89pp Case Resolution Lift**, while **eliminating 71.3 futile retries per batch**. This is the single largest paired delta in the benchmark.
+
+### 2. The Second Lever: Channel Substitution on Structural Errors
+Disaggregating the lift between unbounded and bounded execution shows a second, smaller effect (**+1.65pp ± 1.51pp** overall) driven by **channel substitution on structurally dead payment methods**:
+- **`card_expired`**: **+10.4pp ± 4.9pp lift (statistically established)**. Unbounded executes 3 futile backend retries ($P=0.00$), wasting retries on dead cards. Bounded guards prohibit retries and immediately dispatch a `method_switch_link` (926 links delivered across 20 seeds).
+- **`3ds_dropoff`**: **+2.1pp ± 5.8pp lift (directional only — CI straddles zero)**. Bounded routes directly to `friction_reduction_link` (667 links delivered); the wide interval means it is *not* statistically established, and the dashboard labels it as such.
+- **The constraints were the optimization**: doing strictly less futile work forced the agent into higher-converting digital channels.
 
 ### 3. Complementary Funnel Dynamics: Long Tail vs. Top of Book
 The case delta and value delta point in distinct, complementary directions:
@@ -50,15 +64,12 @@ The case delta and value delta point in distinct, complementary directions:
 - **Voice Telephony (`SmartBounded → SmartBoundedVoice`)**: **+0.88pp Cases vs +3.91pp Value**. Voice acts exclusively on stalled accounts at the top of the book (>₹5,000, averaging ₹9,185 per recovered case).
 - **Synergy**: Decoupling drives volume at the long tail; voice drives value at the top. The two mechanisms are complementary, not redundant.
 
-### 4. Absolute Levels Are Optimistic; the Claim Is the Paired Deltas
-The simulator's absolute recovery levels — NaiveUnbounded ≈ 40.8% value / 41.2% cases,
-SmartBoundedVoice ≈ 48.8% / 46.1% — sit at the **optimistic end** of directional industry
-ranges (passive email ~15–25%, retries + branched dunning ~25–40%, omni-channel ~35–45%; see
-[`docs/assumptions.md`](docs/assumptions.md)). This is a property of the outcome model's base
-probabilities, **not** a validated match to a production cohort, and `NaiveUnbounded` is a
-strawman rather than a real omni-channel system. The claim this project makes is the set of
-**paired deltas between arms under common random numbers**, which cancel the absolute level.
-Production calibration is Phase 1 of the rollout plan below.
+### 4. What Would Invalidate This
+The absolute recovery levels are optimistic (see the calibration notice at the top) — so the
+project stakes its claim on the *paired deltas*, and states up front what real-world evidence
+would reject each mechanism. See **Concrete Falsification Criteria** below: a contact-fatigue
+cliff above 2.5% opt-out, absent payday cyclicality (< 1.4× payday vs mid-month), or net-margin
+compression below +1.0pp after production messaging fees would each falsify the architecture.
 
 ### 5. Voice Arm: Absolute Economics, Selection Effect & Sensitivity
 - **Selection Effect & Variance**: Value Recovery Rate (+3.91pp) is driven by deliberate account targeting as much as conversion. Restricting voice to accounts $\ge$ ₹5,000 (averaging ₹9,185 per recovered case) produces a wider confidence interval on net recovery (₹16,632 ± ₹9,212) due to the heavy-tailed Pareto distribution across small-n batches (5.8 calls).
@@ -138,18 +149,54 @@ The fenced narrator client (`src/rra/narrator/client.py`) validates all LLM-gene
 ## Verification Commands
 
 ```bash
-# Full test suite (132 passing tests)
-make test
-
-# Reproduce 4-arm benchmark report over 20 seeds
-make bench
-
-# Run shadow-mode evaluation on 400 merchant transactions
-make shadow
-
-# Run interactive CLI walkthrough demo
-make demo
+make test    # Full test suite — 133 passing tests (also runs in CI on every push)
+make bench   # Reproduce the 4-arm benchmark report over 20 seeds, and refresh web/app/data/*.json
+make shadow  # Shadow-mode evaluation over 400 synthetic-realistic merchant transactions
+make demo    # Interactive CLI walkthrough
 ```
+
+CI: [`.github/workflows/test.yml`](.github/workflows/test.yml) runs `make test` on every push and PR — the badge/check on the repo front page is the verifiable evidence that the suite passes.
+
+---
+
+## Codebase Map
+
+### Deterministic engine — `src/rra/` (no LLM, no simulator imports)
+
+| Module | Responsibility |
+|---|---|
+| `domain/enums.py`, `domain/models.py` | Pure types; `Case`/`Action`/`Outcome`/`AuditRecord` in integer paise |
+| `engine/taxonomy.py` | Razorpay gateway error → `FailureCode` |
+| `engine/fsm.py` | Escalation-level transition table |
+| `engine/guards.py` | 9 regulatory / operational guardrails (TRAI hours, cooling-off, DND, …) |
+| `engine/scheduler.py` | Salary-proximity + downtime hold-and-resume scheduling |
+| `engine/policy.py` | Orchestrates taxonomy → FSM → guards → scheduler into one `next_action` |
+| `audit/ledger.py` | Append-only SHA-256 hash-chained ledger with `verify_chain()` |
+| `gateway/webhooks.py` | HMAC-SHA256 verification, idempotency, runs the policy engine on ingest |
+| `gateway/razorpay_client.py` | Test-mode API client |
+| `narrator/` (4 files) | Fenced LLM client + grounding validator + deterministic templates |
+| `channels/messaging.py`, `channels/voice/` | SMS/WhatsApp sender; LiveKit voice worker, P2P tool, Hinglish prompt |
+| `sim/` (5 files) | Sealed ground-truth oracle — clock, CRN RNG, downtime, outcome model, portfolio |
+| `bench/` (arms, runner, metrics, report) | 4-arm CRN harness; `report.py` generates `docs/benchmark-report.md` |
+| `api/main.py` | FastAPI: `/webhooks/razorpay`, `/cases`, `/cases/{id}/audit`, `/benchmark`, `/health` |
+
+### Dashboard — `web/` (Next.js 14, App Router, vanilla CSS)
+
+| Piece | Responsibility |
+|---|---|
+| `app/page.tsx` | **Result** — recovery lift + 95% CI, funnel, paired-delta interval plot |
+| `app/benchmark/page.tsx` | **Why it works** — every delta drawn as a dot + whisker vs zero, unit economics |
+| `app/refused/page.tsx` | **What we refused** — the 30 refused synthetic events, `0` vs `286.9` guard-violation bar |
+| `app/cases/page.tsx` | **Portfolio** table + **live signed-webhook trigger** |
+| `app/case/[id]/page.tsx`, `app/audit/[id]/page.tsx` | Case timeline; hash-chain ledger with client-side `verify_chain` |
+| `app/api/simulate-webhook/route.ts` | Server-side HMAC-SHA256 signer → POSTs a real `payment.failed` to the API |
+| `app/components/` | `IntervalPlot`, `Kpi`, `Shell` (nav + live/fixture indicator), `LiveWebhookPanel`, `primitives`, `icons` |
+| `lib/` | `data.ts` (typed fixtures), `api.ts` (`fetchWithFallback`), `cases.ts`, `format.ts` |
+| `app/data/*.json` | Generated by `scripts/export_web_data.py` — **no hand-typed statistics** |
+
+### Scripts — `scripts/`
+
+`export_web_data.py` (report + shadow run → `web/app/data/`), `run_demo.py`, `run_shadow.py`, `seed_testmode.py`.
 
 ---
 

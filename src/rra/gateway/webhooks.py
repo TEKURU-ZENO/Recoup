@@ -9,12 +9,14 @@ from __future__ import annotations
 import hashlib
 import hmac
 import os
+from datetime import datetime, timezone
 from typing import Any
 
 from rra.audit.ledger import Ledger
 from rra.domain.enums import CaseStatus, FailureCode
 from rra.domain.models import Case
 from rra.engine.fsm import transition
+from rra.engine.policy import next_action
 from rra.engine.taxonomy import classify
 
 
@@ -99,7 +101,7 @@ class WebhookManager:
                 )
                 self.active_cases[sub_id] = case
 
-            # Append audit log record
+            # Append audit log record for the raw ingestion event
             self.ledger.append(
                 subscription_id=sub_id,
                 actor="RAZORPAY_WEBHOOK_HANDLER",
@@ -108,7 +110,52 @@ class WebhookManager:
                 execution_payload={"failure_code": failure_code.value},
                 compliance_check={"signature_verified": True},
             )
-            return {"status": "processed", "event": event_type, "failure_code": failure_code.value, "case_id": case.case_id}
+
+            # Run the deterministic policy engine on the freshly classified case and
+            # record its decision — same engine.policy.next_action used by the
+            # simulator and CLI demo, now wired into the live webhook path.
+            next_act = next_action(
+                case, [], datetime.now(timezone.utc), use_smart_scheduling=True, voice_enabled=True
+            )
+            if next_act is not None:
+                self.ledger.append(
+                    subscription_id=sub_id,
+                    actor="AGENT_POLICY_ENGINE",
+                    rule_triggered=next_act.rule_id or next_act.action_type.value.upper(),
+                    inputs={"escalation_level": case.escalation_level.value, "failure_code": failure_code.value},
+                    execution_payload={
+                        "action_type": next_act.action_type.value,
+                        "channel": next_act.channel.value if next_act.channel else None,
+                        "scheduled_at": next_act.scheduled_at.isoformat(),
+                    },
+                    compliance_check={"legally_compliant": True},
+                )
+                action_summary: dict[str, Any] | None = {
+                    "action_type": next_act.action_type.value,
+                    "channel": next_act.channel.value if next_act.channel else None,
+                    "scheduled_at": next_act.scheduled_at.isoformat(),
+                }
+            else:
+                self.ledger.append(
+                    subscription_id=sub_id,
+                    actor="AGENT_POLICY_ENGINE",
+                    rule_triggered="GUARD_DECLINED_CHASE" if case.status == CaseStatus.HALTED else "HALT_NO_FURTHER_ACTION",
+                    inputs={"escalation_level": case.escalation_level.value, "failure_code": failure_code.value},
+                    execution_payload={"case_status": case.status.value},
+                    compliance_check={"legally_compliant": True},
+                )
+                action_summary = None
+
+            return {
+                "status": "processed",
+                "event": event_type,
+                "failure_code": failure_code.value,
+                "case_id": case.case_id,
+                "subscription_id": sub_id,
+                "escalation_level": case.escalation_level.value,
+                "case_status": case.status.value,
+                "next_action": action_summary,
+            }
 
         elif event_type == "subscription.charged":
             case = self.active_cases.get(sub_id)

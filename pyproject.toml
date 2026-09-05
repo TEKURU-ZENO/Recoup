@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "rra"
 version = "0.1.0"
-description = "AI Revenue Recovery Agent for Indian Recurring Payment Systems"
+description = "Recoup — AI revenue recovery agent for Indian recurring payments (Razorpay)"
 requires-python = ">=3.11"
 dependencies = [
     "pydantic>=2.0",

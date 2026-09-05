@@ -1,3 +1,4 @@
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -6,17 +7,25 @@ dist/
 build/
 .eggs/
 *.egg
-.env
-.venv/
-venv/
 .pytest_cache/
 .coverage
 htmlcov/
-*.log
+
+# Environment / secrets
+.env
+.env.local
+.venv/
+venv/
+
+# Editors / OS / tooling
 .DS_Store
+*.log
+.claude/
+.idea/
+.vscode/
+
+# Node / Next.js
 node_modules/
 .next/
-
-
-# Next.js
 next-env.d.ts
+web/.env*.local

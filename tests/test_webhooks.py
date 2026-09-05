@@ -79,7 +79,26 @@ class TestWebhooks:
         assert case is not None
         assert case.failure_code == FailureCode.CARD_EXPIRED
 
-        # Verify audit ledger recorded entry
+        # Verify audit ledger recorded entries: raw ingestion + policy decision
         audit_records = wm.ledger.for_subscription("sub_e2e_1")
-        assert len(audit_records) == 1
+        assert len(audit_records) == 2
         assert audit_records[0].rule_triggered == "EVENT_PAYMENT_FAILED"
+        assert audit_records[1].actor == "AGENT_POLICY_ENGINE"
+
+        # card_expired routes to Digital_Nudge and dispatches a method-switch link,
+        # never a futile backend retry.
+        assert result["escalation_level"] == "digital_nudge"
+        assert result["next_action"]["action_type"] == "method_switch_link"
+
+    def test_mandate_revoked_is_refused_not_chased(self):
+        wm = WebhookManager(secret="mocksecret123")
+        raw_body, sig, payload = _make_webhook_payload(sub_id="sub_e2e_2", reason="mandate_revoked")
+        result = wm.process_event(raw_body, sig, payload)
+
+        assert result["status"] == "processed"
+        assert result["case_status"] == "halted"
+        assert result["next_action"] is None
+
+        audit_records = wm.ledger.for_subscription("sub_e2e_2")
+        assert len(audit_records) == 2
+        assert audit_records[1].rule_triggered == "GUARD_DECLINED_CHASE"
