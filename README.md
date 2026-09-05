@@ -10,7 +10,7 @@ Deterministic state engine, fenced LLM narrator, and 4-arm empirical benchmark c
 
 ## Demo
 
-- **▶ Walkthrough video:** _<add link before submitting>_
+- **▶ Walkthrough video:**(https://drive.google.com/file/d/1SFal8apQwOi6HjUnFGKxZ32HZTKn5bl9/view?usp=sharing)
 - **Dashboard (local):** `cd web && npm install && npm run dev` → <http://localhost:3000> — narrative walk of the result, the mechanism, the refusal ledger, and a live signed-webhook trigger. Optionally run the API too (`uvicorn rra.api.main:app --reload`) for live case data.
 - **CLI walkthrough:** `make demo` — end-to-end ingestion → taxonomy → audit chain → policy decision → shadow validation → benchmark sample.
 
