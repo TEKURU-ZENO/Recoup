@@ -11,7 +11,18 @@ from typing import Any
 
 from rra.channels.voice.prompts import HINGLISH_VOICE_SYSTEM_PROMPT
 from rra.channels.voice.tools import record_promise_to_pay
+from rra.domain.enums import CaseStatus
 from rra.domain.models import Case
+
+
+class CallSessionResult(dict):
+    """Dictionary result that also implements __await__ for backwards-compatible async callers."""
+
+    def __await__(self):
+        async def _coro():
+            return self
+
+        return _coro().__await__()
 
 
 class LiveKitVoiceWorker:
@@ -32,12 +43,16 @@ class LiveKitVoiceWorker:
             "message": "User speech detected via VAD. Playout stopped.",
         }
 
-    async def execute_call_session(
+    def execute_call_session(
         self,
         case: Case,
         user_utterances: list[str],
-    ) -> dict[str, Any]:
-        """Simulate an outbound voice call session with turn-taking and tool invocation."""
+    ) -> CallSessionResult:
+        """Simulate an outbound voice call session with turn-taking and tool invocation.
+
+        Returns an awaitable CallSessionResult supporting both synchronous calls
+        and `await worker.execute_call_session(...)` calls without requiring an event loop.
+        """
         prompt = HINGLISH_VOICE_SYSTEM_PROMPT.format(
             customer_name=case.customer_name,
             subscription_id=case.subscription_id,
@@ -57,12 +72,12 @@ class LiveKitVoiceWorker:
                 p2p_result = record_promise_to_pay(case, "2026-04-05")
                 break
             elif any(term in utterance.lower() for term in ["no", "refuse", "stop", "don't call"]):
-                case.status = "halted"
-                return {"session_status": "refused", "case_id": case.case_id}
+                case.status = CaseStatus.HALTED
+                return CallSessionResult({"session_status": "refused", "case_id": case.case_id})
 
-        return {
+        return CallSessionResult({
             "session_status": "completed",
             "barge_in_occurred": self.barge_in_triggered,
             "p2p_result": p2p_result,
             "final_case_status": case.status.value,
-        }
+        })

@@ -1,0 +1,87 @@
+{
+  "cohort_size": 400,
+  "source": "Razorpay Production Cohort (400 records, D2C/SaaS merchant)",
+  "estimates": {
+    "insufficient_funds:backend_retry (payroll window)": {
+      "failure_code": "insufficient_funds",
+      "channel": "backend_retry (payroll window)",
+      "attempts": 176,
+      "successes": 44,
+      "rate": 0.25,
+      "ci_lower": 0.1918,
+      "ci_upper": 0.3189
+    },
+    "insufficient_funds:payment_link (SMS/WA)": {
+      "failure_code": "insufficient_funds",
+      "channel": "payment_link (SMS/WA)",
+      "attempts": 176,
+      "successes": 21,
+      "rate": 0.1193,
+      "ci_lower": 0.0794,
+      "ci_upper": 0.1755
+    },
+    "bank_downtime:backend_retry (post-outage)": {
+      "failure_code": "bank_downtime",
+      "channel": "backend_retry (post-outage)",
+      "attempts": 88,
+      "successes": 62,
+      "rate": 0.7045,
+      "ci_lower": 0.6023,
+      "ci_upper": 0.7897
+    },
+    "card_expired:method_switch_link": {
+      "failure_code": "card_expired",
+      "channel": "method_switch_link",
+      "attempts": 52,
+      "successes": 9,
+      "rate": 0.1731,
+      "ci_lower": 0.0938,
+      "ci_upper": 0.2973
+    },
+    "3ds_dropoff:friction_reduction_link": {
+      "failure_code": "3ds_dropoff",
+      "channel": "friction_reduction_link",
+      "attempts": 36,
+      "successes": 8,
+      "rate": 0.2222,
+      "ci_lower": 0.1172,
+      "ci_upper": 0.3808
+    },
+    "payment_timed_out:backend_retry (short backoff)": {
+      "failure_code": "payment_timed_out",
+      "channel": "backend_retry (short backoff)",
+      "attempts": 12,
+      "successes": 7,
+      "rate": 0.5833,
+      "ci_lower": 0.3195,
+      "ci_upper": 0.8067
+    },
+    "payment_timed_out:payment_link (generic)": {
+      "failure_code": "payment_timed_out",
+      "channel": "payment_link (generic)",
+      "attempts": 12,
+      "successes": 1,
+      "rate": 0.0833,
+      "ci_lower": 0.0149,
+      "ci_upper": 0.3539
+    },
+    "voice_intercept:promise_to_pay_capture (>\u20b95k)": {
+      "failure_code": "voice_intercept",
+      "channel": "promise_to_pay_capture (>\u20b95k)",
+      "attempts": 32,
+      "successes": 19,
+      "rate": 0.5938,
+      "ci_lower": 0.4226,
+      "ci_upper": 0.7448
+    },
+    "voice_intercept:promise_to_pay_fulfillment": {
+      "failure_code": "voice_intercept",
+      "channel": "promise_to_pay_fulfillment",
+      "attempts": 19,
+      "successes": 15,
+      "rate": 0.7895,
+      "ci_lower": 0.5667,
+      "ci_upper": 0.9149
+    }
+  }
+}

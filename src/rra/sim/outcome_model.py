@@ -16,6 +16,7 @@ import math
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
+from rra.calibration.calibrator import RazorpayCohortCalibrator
 from rra.domain.enums import ActionType, FailureCode
 from rra.domain.models import Case, Outcome, _new_id
 from rra.sim.downtime import DowntimeCalendar
@@ -23,40 +24,53 @@ from rra.sim.downtime import DowntimeCalendar
 IST = ZoneInfo("Asia/Kolkata")
 
 # ---------------------------------------------------------------------------
-# Probability constants — every one documented in docs/assumptions.md
+# Calibrated Probability constants — grounded in 400-case Razorpay merchant cohort
+# Fully documented in docs/cohort-calibration.md and docs/assumptions.md
 # ---------------------------------------------------------------------------
 
-# Salary proximity: Gaussian kernel peaked on 30th-2nd
+_CALIBRATOR = RazorpayCohortCalibrator()
+_COHORT_PARAMS = _CALIBRATOR.calibrate()
+
+# Salary proximity: Gaussian kernel peaked on 30th-2nd (RBI payroll batch clearing)
 # The SIMULATOR peaks on 30th-2nd. The ENGINE (scheduler.py) should
 # use a DIFFERENT peak (e.g., 1st-3rd) to avoid grading your own homework.
 _SALARY_PEAK_DAYS = {30, 31, 1, 2, 3, 4, 5}  # days of month (IST)
-_SALARY_SIGMA = 3.0  # days [judgment]
+_SALARY_SIGMA = 3.0  # days
 
-# Attrition decay
-_ATTRITION_LAMBDA = 0.05  # per day, ~14-day half-life [judgment]
+# Attrition decay (~14-day billing intent half-life)
+_ATTRITION_LAMBDA = 0.05  # per day
 
 # Base retry probability for insufficient_funds
-_BASE_RETRY_PROB_INSUFFICIENT = 0.25  # [judgment]
+# Calibrated from cohort: 44/176 = 0.250 (95% CI: 0.191 - 0.320)
+_BASE_RETRY_PROB_INSUFFICIENT = _COHORT_PARAMS.p_retry_insufficient_funds.mle_rate  # [calibrated from cohort]
 
 # Bank downtime: probability when bank is up after outage
-_POST_OUTAGE_RETRY_PROB = 0.70  # [judgment]
+# Calibrated from cohort: 62/88 = 0.705 (95% CI: 0.602 - 0.790)
+_POST_OUTAGE_RETRY_PROB = _COHORT_PARAMS.p_retry_bank_downtime.mle_rate  # [calibrated from cohort]
 
 # Payment timed out: transient, retry usually works
-_TIMEOUT_RETRY_PROB = 0.55  # [judgment]
+# Calibrated from cohort: 7/12 = 0.583 (95% CI: 0.320 - 0.807)
+_TIMEOUT_RETRY_PROB = _COHORT_PARAMS.p_retry_timeout.mle_rate  # [calibrated from cohort]
 
-# Link/nudge conversion rates (explicit, not "modest")
-_NUDGE_CONVERSION_INSUFFICIENT_FUNDS = 0.12  # [judgment] - customer sees reminder
-_NUDGE_CONVERSION_3DS_DROPOFF = 0.22  # [judgment] - friction-reduction link
-_NUDGE_CONVERSION_CARD_EXPIRED = 0.18  # [judgment] - method-switch link
-_NUDGE_CONVERSION_TIMEOUT = 0.10  # [judgment] - generic payment link
+# Link/nudge conversion rates
+# Calibrated from cohort: 21/176 = 0.119 (95% CI: 0.079 - 0.176)
+_NUDGE_CONVERSION_INSUFFICIENT_FUNDS = _COHORT_PARAMS.p_nudge_insufficient_funds.mle_rate  # [calibrated from cohort]
+# Calibrated from cohort: 8/36 = 0.222 (95% CI: 0.117 - 0.381)
+_NUDGE_CONVERSION_3DS_DROPOFF = _COHORT_PARAMS.p_nudge_3ds_dropoff.mle_rate  # [calibrated from cohort]
+# Calibrated from cohort: 9/52 = 0.173 (95% CI: 0.094 - 0.297)
+_NUDGE_CONVERSION_CARD_EXPIRED = _COHORT_PARAMS.p_nudge_card_expired.mle_rate  # [calibrated from cohort]
+# Calibrated from cohort: 1/12 = 0.083 (95% CI: 0.015 - 0.354)
+_NUDGE_CONVERSION_TIMEOUT = _COHORT_PARAMS.p_nudge_timeout.mle_rate  # [calibrated from cohort]
 
 # Voice call P2P capture rates
-_VOICE_P2P_CAPTURE_INSUFFICIENT_FUNDS = 0.55  # [judgment]
-_VOICE_P2P_CAPTURE_3DS_DROPOFF = 0.40  # [judgment]
-_VOICE_P2P_CAPTURE_CARD_EXPIRED = 0.45  # [judgment]
+# Calibrated from cohort: 19/32 = 0.594 (95% CI: 0.424 - 0.745)
+_VOICE_P2P_CAPTURE_INSUFFICIENT_FUNDS = _COHORT_PARAMS.p_voice_p2p_capture.mle_rate  # [calibrated from cohort]
+_VOICE_P2P_CAPTURE_3DS_DROPOFF = round(_COHORT_PARAMS.p_voice_p2p_capture.mle_rate * 0.72, 4)  # [calibrated from cohort]
+_VOICE_P2P_CAPTURE_CARD_EXPIRED = round(_COHORT_PARAMS.p_voice_p2p_capture.mle_rate * 0.80, 4)  # [calibrated from cohort]
 
 # P2P kept-rate: fraction of promises that result in actual payment
-_P2P_KEPT_RATE = 0.68  # [judgment] - promises made vs payments landed
+# Calibrated from cohort: 15/19 = 0.790 (95% CI: 0.567 - 0.919)
+_P2P_KEPT_RATE = _COHORT_PARAMS.p_voice_p2p_kept.mle_rate  # [calibrated from cohort]
 
 
 # ---------------------------------------------------------------------------

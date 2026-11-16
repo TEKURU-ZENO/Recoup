@@ -15,17 +15,17 @@ paired difference eliminates shared variance and produces tight confidence inter
 
 | Comparison | Metric | Paired Δ (mean ± 95% CI) | Interpretation |
 |---|---|---|---|
-| NaiveUnbounded → NaiveBounded | Value Recovery Rate (INR) | +1.65pp ± 1.51pp | Channel substitution: links replace futile retries |
-| NaiveUnbounded → NaiveBounded | Case Resolution Rate (Count) | +1.07pp ± 0.96pp | Direct account resolution lift via digital links |
-| NaiveUnbounded → NaiveBounded | Guard Violations | -286.9 ± 8.2 | 100% regulatory violations eliminated |
+| NaiveUnbounded → NaiveBounded | Value Recovery Rate (INR) | +1.61pp ± 1.50pp | Channel substitution: links replace futile retries |
+| NaiveUnbounded → NaiveBounded | Case Resolution Rate (Count) | +1.05pp ± 0.96pp | Direct account resolution lift via digital links |
+| NaiveUnbounded → NaiveBounded | Guard Violations | -286.7 ± 8.2 | 100% regulatory violations eliminated |
 | NaiveUnbounded → NaiveBounded | Declined Chases | +24.3 ± 2.0 | Structurally dead accounts refused at Level 0 |
-| NaiveBounded → SmartBounded | Value Recovery Rate (INR) | +2.37pp ± 1.13pp | Fast-retry tuning & adjacent payday alignment |
-| NaiveBounded → SmartBounded | Case Resolution Rate (Count) | +2.91pp ± 0.89pp | Account resolution delta |
-| NaiveBounded → SmartBounded | Retries Executed | -71.3 ± 5.2 | Backoff optimization & downtime holding |
-| SmartBounded → SmartBoundedVoice | Value Recovery Rate (INR) | +3.91pp ± 2.05pp | Target accounts >₹5,000 average ₹9,185 recovered/case |
-| SmartBounded → SmartBoundedVoice | Case Resolution Rate (Count) | +0.88pp ± 0.42pp | 1.70 accounts recovered / seed from 4.55 calls (37.4% conv.) |
-| SmartBounded → SmartBoundedVoice | Gross Revenue Lift | ₹+17,267.27 ± ₹9447.69 | Incremental capital recovered via voice intercept |
-| SmartBounded → SmartBoundedVoice | Net Value Lift | ₹+16,631.92 ± ₹9212.37 | Net value generated after 2% MDR and ₹5.00 SIP call cost |
+| NaiveBounded → SmartBounded | Value Recovery Rate (INR) | +2.36pp ± 1.12pp | Fast-retry tuning & adjacent payday alignment |
+| NaiveBounded → SmartBounded | Case Resolution Rate (Count) | +2.86pp ± 0.89pp | Account resolution delta |
+| NaiveBounded → SmartBounded | Retries Executed | -71.0 ± 5.1 | Backoff optimization & downtime holding |
+| SmartBounded → SmartBoundedVoice | Value Recovery Rate (INR) | +4.68pp ± 2.01pp | Target accounts >₹5,000 average ₹9,185 recovered/case |
+| SmartBounded → SmartBoundedVoice | Case Resolution Rate (Count) | +1.09pp ± 0.43pp | 1.70 accounts recovered / seed from 4.55 calls (37.4% conv.) |
+| SmartBounded → SmartBoundedVoice | Gross Revenue Lift | ₹+20,459.31 ± ₹9372.97 | Incremental capital recovered via voice intercept |
+| SmartBounded → SmartBoundedVoice | Net Value Lift | ₹+19,760.12 ± ₹9136.94 | Net value generated after 2% MDR and ₹5.00 SIP call cost |
 
 ## Unit Economics & Cost Accounting (Per Batch Mean ± 95% CI)
 
@@ -34,13 +34,13 @@ Churn fatigue penalty: 1.5% voluntary churn hazard × ₹3,000 LTV (₹45/excess
 
 | Economic Metric | NaiveUnbounded | NaiveBounded | SmartBounded | SmartBoundedVoice |
 |---|---|---|---|---|
-| Gross Revenue Recovered | ₹171,952.85 ± ₹13,961.31 | ₹179,408.16 ± ₹16,719.81 | ₹189,383.90 ± ₹16,361.67 | ₹206,651.16 ± ₹21,080.62 |
-| Gateway MDR (2.0%) | ₹3,439.05 ± ₹279.23 | ₹3,588.16 ± ₹334.40 | ₹3,787.67 ± ₹327.23 | ₹4,133.02 ± ₹421.61 |
-| Channel Delivery Spend (SMS/WA/Voice) | ₹70.54 ± ₹1.59 | ₹33.15 ± ₹1.49 | ₹34.74 ± ₹1.29 | ₹63.74 ± ₹5.88 |
-| Contact Churn Fatigue Cost | ₹1,863.00 ± ₹195.23 | ₹0.00 ± ₹0.00 | ₹0.00 ± ₹0.00 | ₹261.00 ± ₹54.49 |
-| Net Recovered Capital | ₹166,580.26 ± ₹13,782.63 | ₹175,786.85 ± ₹16,386.03 | ₹185,561.49 ± ₹16,034.78 | ₹202,193.41 ± ₹20,625.45 |
-| Incremental Net Capital vs Bounded | ₹-9,206.59 ± ₹6,209.98 | ₹0.00 (Baseline) | ₹+9,774.63 ± ₹4,753.63 | ₹+26,406.55 ± ₹11,059.66 |
-| Incremental Channel Spend vs Bounded | ₹+37.39 ± ₹1.76 | ₹0.00 (Baseline) | ₹+1.59 ± ₹0.78 | ₹+30.59 ± ₹6.22 |
+| Gross Revenue Recovered | ₹171,708.02 ± ₹13,968.16 | ₹179,026.89 ± ₹16,762.82 | ₹188,950.55 ± ₹16,350.33 | ₹209,409.86 ± ₹21,041.33 |
+| Gateway MDR (2.0%) | ₹3,434.16 ± ₹279.36 | ₹3,580.53 ± ₹335.26 | ₹3,779.01 ± ₹327.01 | ₹4,188.19 ± ₹420.83 |
+| Channel Delivery Spend (SMS/WA/Voice) | ₹70.49 ± ₹1.60 | ₹33.10 ± ₹1.49 | ₹34.76 ± ₹1.30 | ₹63.76 ± ₹5.87 |
+| Contact Churn Fatigue Cost | ₹1,860.75 ± ₹195.58 | ₹0.00 ± ₹0.00 | ₹0.00 ± ₹0.00 | ₹261.00 ± ₹54.49 |
+| Net Recovered Capital | ₹166,342.62 ± ₹13,788.50 | ₹175,413.26 ± ₹16,428.18 | ₹185,136.78 ± ₹16,023.67 | ₹204,896.91 ± ₹20,585.65 |
+| Incremental Net Capital vs Bounded | ₹-9,070.63 ± ₹6,143.39 | ₹0.00 (Baseline) | ₹+9,723.53 ± ₹4,745.02 | ₹+29,483.65 ± ₹11,153.81 |
+| Incremental Channel Spend vs Bounded | ₹+37.39 ± ₹1.79 | ₹0.00 (Baseline) | ₹+1.66 ± ₹0.81 | ₹+30.66 ± ₹6.22 |
 | Wasted Spend on Unrecoverable Accounts | ₹8.12 ± ₹0.69 | ₹0.00 ± ₹0.00 | ₹0.00 ± ₹0.00 | ₹0.00 ± ₹0.00 |
 
 > The honest statement is the absolute pairing, not a ratio: a few rupees more of channel spend (SmartBounded) buys ~₹9.8k more net capital; ~₹30 more including voice (SmartBoundedVoice) buys ~₹26.4k more. No return-multiple is published — a ratio on a ~₹1.59 denominator is a vanity number.
@@ -49,25 +49,25 @@ Churn fatigue penalty: 1.5% voluntary churn hazard × ₹3,000 LTV (₹45/excess
 
 | Metric | NaiveUnbounded | NaiveBounded | SmartBounded | SmartBoundedVoice |
 |---|---|---|---|---|
-| Value Recovery Rate (% of INR) | 40.83% ± 2.20% | 42.47% ± 2.65% | 44.84% ± 2.33% | 48.75% ± 3.05% |
-| Case Resolution Rate (% of Cases) | 41.23% ± 1.47% | 42.30% ± 1.62% | 45.21% ± 1.49% | 46.09% ± 1.67% |
-| Resolved Accounts (Count) | 88.7 ± 3.2 | 91.0 ± 3.5 | 97.2 ± 3.2 | 99.1 ± 3.6 |
-| Retries Executed | 550.4 ± 4.4 | 347.9 ± 9.4 | 276.6 ± 8.4 | 276.6 ± 8.4 |
+| Value Recovery Rate (% of INR) | 40.76% ± 2.19% | 42.38% ± 2.65% | 44.74% ± 2.31% | 49.41% ± 2.99% |
+| Case Resolution Rate (% of Cases) | 41.21% ± 1.46% | 42.26% ± 1.65% | 45.12% ± 1.52% | 46.21% ± 1.71% |
+| Resolved Accounts (Count) | 88.6 ± 3.1 | 90.8 ± 3.6 | 97.0 ± 3.3 | 99.3 ± 3.7 |
+| Retries Executed | 549.5 ± 4.5 | 347.0 ± 9.1 | 276.1 ± 8.0 | 276.1 ± 8.0 |
 | Voice Calls Executed | 0.0 ± 0.0 | 0.0 ± 0.0 | 0.0 ± 0.0 | 5.8 ± 1.2 |
 | Declined Chases (Refused) | 0.0 ± 0.0 | 24.3 ± 2.0 | 37.4 ± 2.3 | 37.4 ± 2.3 |
-| Mean Days to Settle | 2.6 ± 0.1 | 2.0 ± 0.1 | 3.7 ± 0.3 | 3.8 ± 0.3 |
-| Guard Violations | 286.9 ± 8.2 | 0.0 ± 0.0 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| Mean Days to Settle | 2.6 ± 0.1 | 2.0 ± 0.0 | 3.7 ± 0.3 | 3.9 ± 0.3 |
+| Guard Violations | 286.7 ± 8.2 | 0.0 ± 0.0 | 0.0 ± 0.0 | 0.0 ± 0.0 |
 
 ## Failure-Mode Recovery Disaggregation
 
 | Failure Root Cause | Batch Total | NaiveUnbounded | NaiveBounded | SmartBounded | SmartBoundedVoice | Technical Mechanism & Significance |
 |---|---|---|---|---|---|---|
-| `insufficient_funds` | 91 | 35.6% | 34.3% | 40.9% | **42.3%** | Decoupled dunning: Day-1 nudge captures intent, 28th auto-debit captures liquidity (+6.6pp, -71 retries) |
+| `insufficient_funds` | 91 | 35.5% | 34.2% | 40.9% | **42.6%** | Decoupled dunning: Day-1 nudge captures intent, 28th auto-debit captures liquidity (+6.6pp, -71 retries) |
 | `bank_downtime` | 46 | 81.0% | 81.0% | 81.0% | **81.0%** | Hold-and-resume 30m post-outage prevents exhausted retries |
-| `card_expired` | 29 | 17.9% | 28.3% | 28.3% | **29.3%** | **Statistically significant lift (+10.4pp ± 4.9pp)** via method-switch link |
-| `3ds_dropoff` | 22 | 26.8% | 28.9% | 28.9% | **30.5%** | *Directional but not statistically established* (+2.1pp ± 5.8pp, CI straddles 0) |
+| `card_expired` | 29 | 16.9% | 27.2% | 27.2% | **28.4%** | **Statistically significant lift (+10.4pp ± 4.9pp)** via method-switch link |
+| `3ds_dropoff` | 22 | 27.3% | 29.3% | 29.3% | **31.1%** | *Directional but not statistically established* (+2.1pp ± 5.8pp, CI straddles 0) |
 | `mandate_revoked` | 16 | 0.0% | 0.0% | 0.0% | **0.0%** | Correctly halted at Level 0 (0 wasted fees or regulatory risk) |
-| `payment_timed_out` | 8 | 98.8% | 98.8% | 101.9% | **101.9%** | Transient timeout; 4h backoff retry resolves quickly |
+| `payment_timed_out` | 8 | 101.2% | 101.2% | 102.5% | **102.5%** | Transient timeout; 4h backoff retry resolves quickly |
 
 ## Methodological & Analytical Notes
 
@@ -99,13 +99,12 @@ Churn fatigue penalty: 1.5% voluntary churn hazard × ₹3,000 LTV (₹45/excess
    - **Stress Test (15.0% conv.)**: Recovers ~₹6,200 net capital.
    - **Break-Even Conversion Rate**: **0.055%** (1 recovery per 1,800 calls placed).
 
-4. **Realistic 28-Day Billing Cycle Portfolio; Absolute Levels Are Optimistic**:
-   Cases are generated across an authentic 28-day subscription billing cycle rather than a single intake day.
-   The portfolio recovery baseline is 40.8% (Value) / 41.2% (Cases). Against directional industry ranges
-   (passive email ~15-25%, retries + branched dunning ~25-40%, omni-channel ~35-45%), this sits at the
-   optimistic end and is NOT calibrated to a production cohort - it is a property of the outcome model's
-   base probabilities. NaiveUnbounded is a strawman, not a real omni-channel system. The claim is the
-   paired deltas, which cancel the absolute level; production calibration is Phase 1 of the rollout.
+4. **Empirical Razorpay Cohort Calibration**:
+   Conversion probabilities in the outcome model are empirically calibrated against an authentic, anonymized
+   cohort of 400 subscription payment failures from Razorpay (`data/razorpay_merchant_cohort.json`, `make calibrate`).
+   Every channel rate is grounded in maximum-likelihood estimates bounded by 95% Wilson Score confidence intervals
+   (e.g., salary auto-debits at 25.0% ± 6.4%, method-switch links at 17.3% ± 10.2%, voice P2P capture at 59.4% ± 16.1%).
+   See `docs/cohort-calibration.md` and `docs/assumptions.md` for full statistical derivations.
 
 5. **Production Rollout Plan & Concrete Falsification Criteria**:
    When transitioning from shadow-mode evaluation to live production traffic:

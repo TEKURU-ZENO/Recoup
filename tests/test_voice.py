@@ -47,24 +47,24 @@ class TestVoiceArm:
         assert worker.barge_in_triggered is True
         assert worker.is_agent_speaking is False
 
-    @pytest.mark.asyncio
-    async def test_voice_session_captures_p2p(self):
+    def test_voice_session_captures_p2p(self):
         worker = LiveKitVoiceWorker()
         case = _make_case()
 
         utterances = ["Hello?", "Yes, I will pay on next week 5th April."]
-        session_res = await worker.execute_call_session(case, utterances)
+        session_res = worker.execute_call_session(case, utterances)
 
         assert session_res["session_status"] == "completed"
         assert case.status == CaseStatus.P2P_SCHEDULED
+        assert session_res["final_case_status"] == CaseStatus.P2P_SCHEDULED.value
 
-    @pytest.mark.asyncio
-    async def test_voice_session_refusal_halts_case(self):
+    def test_voice_session_refusal_halts_case(self):
         worker = LiveKitVoiceWorker()
         case = _make_case()
 
         utterances = ["I refuse to pay, please stop calling."]
-        session_res = await worker.execute_call_session(case, utterances)
+        session_res = worker.execute_call_session(case, utterances)
 
         assert session_res["session_status"] == "refused"
-        assert case.status in ("halted", CaseStatus.HALTED)
+        assert case.status == CaseStatus.HALTED
+        assert isinstance(case.status, CaseStatus)

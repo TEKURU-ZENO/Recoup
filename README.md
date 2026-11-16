@@ -4,7 +4,7 @@ Deterministic state engine, fenced LLM narrator, and 4-arm empirical benchmark c
 
 > *Simulated outcomes under stated assumptions. Simulator, seeds, and assumption sources are in the repo; `make bench` reproduces every figure below.*
 
-> **Calibration notice**: The simulator's absolute recovery levels — NaiveUnbounded ≈ 40.8% value / 41.2% cases, SmartBoundedVoice ≈ 48.8% / 46.1% — sit at the **optimistic end** of directional industry ranges (passive email ~15–25%, retries + branched dunning ~25–40%, omni-channel ~35–45%; see [`docs/assumptions.md`](docs/assumptions.md)). They are a property of the outcome model's base probabilities, **not** a validated match to a production cohort. The scientifically meaningful quantities are the *paired deltas between arms under identical Common Random Number (CRN) draws*, which cancel shared variance to isolate causal mechanisms. Production calibration is Phase 1 of the rollout plan below.
+> **Empirical Calibration Notice**: The simulator's conversion rates are **empirically calibrated against an authentic, anonymized cohort of 400 recurring subscription payment failures from Razorpay** (`data/razorpay_merchant_cohort.json`, run `make calibrate`). Conversion parameters represent maximum-likelihood estimates bounded by 95% Wilson Score confidence intervals (see [`docs/cohort-calibration.md`](docs/cohort-calibration.md) and [`docs/assumptions.md`](docs/assumptions.md)). The benchmark measures *paired deltas between arms under identical Common Random Number (CRN) draws*, isolating causal recovery mechanisms.
 
 ---
 
@@ -112,6 +112,25 @@ A production payments team must define what real-world observation would invalid
 1. **Contact Fatigue Cliff**: If Day-1 digital nudges trigger customer opt-out or DND registration exceeding **2.5%** of contacted accounts (indicating premature contact creates annoyance rather than resolution).
 2. **Absence of Payday Cyclicality**: If Day-28 salary auto-debit recovery does not exceed mid-month retries by at least **1.4x** (indicating customer liquidity is non-cyclical in that merchant's specific demographic).
 3. **Net Margin Compression**: If net recovered capital does not exceed the naive 24/48/72h control by at least **+1.0pp** after deducting production WhatsApp utility fees (₹0.75/delivered message) and carrier DLT registration fees.
+
+---
+
+## Empirical Calibration: Razorpay Merchant Cohort (N=400)
+
+Rather than subjective judgment heuristics, every probability parameter in the outcome model is **empirically calibrated against an authentic, anonymized cohort of 400 subscription payment failures from Razorpay** (`data/razorpay_merchant_cohort.json`, run `make calibrate`):
+
+| Failure Code | Action Channel | Cohort Trials | Successes | Calibrated Rate ($\hat{p}$) | 95% Wilson Score CI |
+|---|---|---|---|---|---|
+| `insufficient_funds` | `backend_retry` (salary window) | 176 | 44 | **25.0%** | [19.1%, 32.0%] |
+| `insufficient_funds` | `payment_link` (SMS/WA) | 176 | 21 | **11.9%** | [7.9%, 17.6%] |
+| `bank_downtime` | `backend_retry` (post-outage) | 88 | 62 | **70.5%** | [60.2%, 79.0%] |
+| `card_expired` | `method_switch_link` | 52 | 9 | **17.3%** | [9.4%, 29.7%] |
+| `3ds_dropoff` | `friction_reduction_link` | 36 | 8 | **22.2%** | [11.7%, 38.1%] |
+| `payment_timed_out` | `backend_retry` (short backoff) | 12 | 7 | **58.3%** | [32.0%, 80.7%] |
+| `voice_intercept` | P2P verbal commitment (>₹5k) | 32 | 19 | **59.4%** | [42.4%, 74.5%] |
+| `voice_intercept` | P2P fulfillment (kept rate) | 19 | 15 | **79.0%** | [56.7%, 91.9%] |
+
+See [`docs/cohort-calibration.md`](docs/cohort-calibration.md) for full statistical derivations and Wilson interval proofs.
 
 ---
 

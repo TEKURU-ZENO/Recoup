@@ -1,4 +1,4 @@
-.PHONY: test bench shadow demo lint
+.PHONY: test bench shadow calibrate demo lint
 
 test:
 	python -m pytest tests/ -v
@@ -6,6 +6,9 @@ test:
 bench:
 	python -m rra.bench.report
 	python scripts/export_web_data.py
+
+calibrate:
+	python scripts/calibrate_cohort.py
 
 shadow:
 	python scripts/run_shadow.py
